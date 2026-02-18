@@ -6,6 +6,14 @@ export const Navigation: React.FC = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSafetyActive, setIsSafetyActive] = useState(false);
   const [isEcologyActive, setIsEcologyActive] = useState(false);
+  const navItems = [
+    { label: '\u0422\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u044f', href: '#technology' },
+    { label: '\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u044c', href: '#safety' },
+    { label: '\u042d\u043a\u043e\u043b\u043e\u0433\u0438\u044f', href: '#ecology' },
+    { label: 'Vision', href: '#vision' },
+    { label: 'Roadmap', href: '#roadmap' },
+    { label: '\u041c\u0430\u0440\u0448\u0440\u0443\u0442\u044b', href: '#routes' },
+  ];
 
   useEffect(() => {
     const scrollRoot = document.querySelector('main');
@@ -49,29 +57,29 @@ export const Navigation: React.FC = () => {
     <nav className={navClasses}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         {/* Logo */}
-        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
+        <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
           <img src={AAAGLogo} alt="AAAG Logo" width={646} height={317} className="h-16 w-auto" />
         </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          {['Технология', 'Безопасность', 'Roadmap', 'Маршруты'].map((item, idx) => (
-             <a 
-               key={idx} 
-               href={`#section-${idx + 2}`} 
-               className="text-white text-sm font-medium uppercase tracking-wider hover:text-aaag-blue transition-colors relative group"
-             >
-               {item}
-               <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-aaag-blue transition-all duration-300 group-hover:w-full"></span>
-             </a>
+          {navItems.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className="text-white text-sm font-medium uppercase tracking-wider hover:text-aaag-blue transition-colors relative group"
+            >
+              {item.label}
+              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-aaag-blue transition-all duration-300 group-hover:w-full"></span>
+            </a>
           ))}
           <button className="px-6 py-2 border border-white rounded-full text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-aaag-blue transition-all duration-300">
-            Связаться
+            {'\u0421\u0432\u044f\u0437\u0430\u0442\u044c\u0441\u044f'}
           </button>
         </div>
 
         {/* Mobile Hamburger */}
-        <button 
+        <button
           className="md:hidden text-white"
           onClick={() => setIsMobileOpen(!isMobileOpen)}
         >
@@ -81,16 +89,16 @@ export const Navigation: React.FC = () => {
 
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-aaag-dark/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-         {['Технология', 'Безопасность', 'Roadmap', 'Маршруты'].map((item, idx) => (
-             <a 
-               key={idx} 
-               href={`#section-${idx + 2}`} 
-               onClick={() => setIsMobileOpen(false)}
-               className="text-2xl font-light text-white uppercase tracking-widest hover:text-aaag-blue transition-colors"
-             >
-               {item}
-             </a>
-          ))}
+        {navItems.map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            onClick={() => setIsMobileOpen(false)}
+            className="text-2xl font-light text-white uppercase tracking-widest hover:text-aaag-blue transition-colors"
+          >
+            {item.label}
+          </a>
+        ))}
       </div>
     </nav>
   );
