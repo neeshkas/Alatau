@@ -55,7 +55,7 @@ export const Navigation: React.FC = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center gap-8">
-          {['Технология', 'Безопасность', 'Roadmap', 'Маршруты', 'Команда'].map((item, idx) => (
+          {['Технология', 'Безопасность', 'Roadmap', 'Маршруты'].map((item, idx) => (
              <a 
                key={idx} 
                href={`#section-${idx + 2}`} 
@@ -81,7 +81,7 @@ export const Navigation: React.FC = () => {
 
       {/* Mobile Menu Overlay */}
       <div className={`fixed inset-0 bg-aaag-dark/95 backdrop-blur-xl z-40 transition-transform duration-500 flex flex-col justify-center items-center gap-8 ${isMobileOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-         {['Технология', 'Безопасность', 'Roadmap', 'Маршруты', 'Команда'].map((item, idx) => (
+         {['Технология', 'Безопасность', 'Roadmap', 'Маршруты'].map((item, idx) => (
              <a 
                key={idx} 
                href={`#section-${idx + 2}`} 

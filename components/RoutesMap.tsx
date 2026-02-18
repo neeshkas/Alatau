@@ -20,7 +20,7 @@ export const RoutesMap: React.FC = () => {
         />
         <div className="absolute inset-0 bg-[#0f172a]/80"></div>
       </div>
-      <div className="flex flex-col lg:flex-row w-full h-full min-h-[80vh] max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative z-10">
+      <div className="mt-16 lg:mt-20 flex flex-col lg:flex-row w-full h-full min-h-[80vh] max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative z-10">
         
         {/* Sidebar / Accordion */}
         <div className="w-full lg:w-1/3 bg-aaag-blue/20 backdrop-blur-xl p-8 flex flex-col z-20">

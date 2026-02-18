@@ -7,7 +7,6 @@ import { Ecology } from './components/Ecology';
 import { Vision } from './components/Vision';
 import { Roadmap } from './components/Roadmap';
 import { RoutesMap } from './components/RoutesMap';
-import { Team } from './components/Team';
 import { Footer } from './components/Footer';
 
 const App: React.FC = () => {
@@ -24,7 +23,6 @@ const App: React.FC = () => {
         <Vision />
         <Roadmap />
         <RoutesMap />
-        <Team />
         <Footer />
       </main>
     </div>
