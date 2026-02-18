@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Section } from './Section';
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion';
 import { ShieldCheck, Anchor, BatteryCharging, Activity } from 'lucide-react';
-import { BackgroundImage } from './BackgroundImage';
+import Block3Photo from '../assets/assets/photo_for_block3.png';
 
 const SAFETY_POINTS = [
   {
@@ -49,17 +49,18 @@ export const Safety: React.FC = () => {
   return (
     <Section id="safety" className="bg-[#F6F8FB] text-aaag-dark" dark={false}>
       <div className="absolute inset-0 z-0">
-        <BackgroundImage
-          base="volocopter-iaa-2017"
+        <img
+          src={Block3Photo}
           alt="Safety"
+          width={2624}
+          height={1632}
           className="w-full h-full object-cover"
-          width={1600}
-          height={1067}
+          decoding="async"
         />
         <div className="absolute inset-0 bg-white/75"></div>
       </div>
 
-      <div ref={sectionRef} className="relative z-10 max-w-7xl mx-auto px-6 w-full py-16">
+      <div ref={sectionRef} className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 md:pt-28 pb-16 mt-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.4em] text-aaag-blue">

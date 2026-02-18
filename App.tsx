@@ -16,7 +16,7 @@ const App: React.FC = () => {
       <Navigation />
       
       {/* Scroll Snap Container */}
-      <main className="h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar">
+      <main className="h-screen w-full overflow-y-scroll snap-y snap-mandatory scroll-smooth no-scrollbar overscroll-contain pt-24 md:pt-28">
         <Hero />
         <Technology />
         <Safety />

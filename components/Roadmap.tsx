@@ -36,15 +36,15 @@ export const Roadmap: React.FC = () => {
                         className="relative w-[300px] md:w-[400px] group"
                     >
                         {/* Timeline Line */}
-                        <div className="absolute top-0 left-0 w-full h-[2px] bg-white/20 group-hover:bg-cyan-400 transition-colors duration-500"></div>
-                        <div className="absolute top-[-5px] left-0 w-3 h-3 bg-cyan-400 rounded-full shadow-[0_0_15px_rgba(34,211,238,0.8)]"></div>
+                        <div className="absolute top-0 left-0 w-full h-[2px] bg-white/20 group-hover:bg-aaag-blue transition-colors duration-500"></div>
+                        <div className="absolute top-[-5px] left-0 w-3 h-3 bg-aaag-blue rounded-full shadow-[0_0_15px_rgba(59,46,115,0.6)]"></div>
 
                         <div className="pt-8 pl-2 border-l border-white/10 group-hover:border-white/30 transition-all p-6 min-h-[300px] bg-white/5 backdrop-blur-sm rounded-br-3xl mt-4">
-                            <span className="text-6xl font-black text-white/10 absolute top-4 right-4 z-0 group-hover:text-cyan-400/10 transition-colors">
+                            <span className="text-6xl font-black text-white/10 absolute top-4 right-4 z-0 group-hover:text-aaag-blue/10 transition-colors">
                                 {item.year}
                             </span>
                             <div className="relative z-10">
-                                <h3 className="text-3xl font-bold text-cyan-400 mb-2">{item.year}</h3>
+                                <h3 className="text-3xl font-bold text-[#6495ED] mb-2">{item.year}</h3>
                                 <h4 className="text-xl font-semibold text-white mb-1">{item.title}</h4>
                                 <p className="text-gray-400 text-sm mb-6 uppercase tracking-wider">{item.description}</p>
                                 

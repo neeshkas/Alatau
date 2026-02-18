@@ -1,12 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
-import heroVideo from '../assets/evtol-optimized/hero-1280.mp4';
 import heroPoster from '../assets/evtol-optimized/hero-poster.jpg';
 
 export const Hero: React.FC = () => {
   return (
-    <div className="relative h-screen w-full overflow-hidden snap-start">
+    <div className="relative h-screen w-full overflow-hidden snap-start snap-always">
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video 
@@ -18,7 +16,7 @@ export const Hero: React.FC = () => {
           poster={heroPoster}
           className="w-full h-full object-cover"
         >
-          <source src={heroVideo} type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/14278493/14278493-uhd_2560_1440_30fps.mp4" type="video/mp4" />
         </video>
         {/* Overlay gradient for text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-aaag-blue/40 via-aaag-dark/30 to-aaag-dark"></div>
@@ -40,10 +38,10 @@ export const Hero: React.FC = () => {
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="text-5xl md:text-7xl lg:text-9xl font-bold text-white uppercase tracking-tighter leading-none mb-6 font-sans mix-blend-overlay"
+          className="text-5xl md:text-7xl lg:text-9xl font-bold text-white uppercase tracking-tighter leading-none mb-6 font-sans mix-blend-overlay hero-outline"
         >
           Alatau<br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">Advance</span><br />
+          <span className="text-white">Advance</span><br />
           Air Group
         </motion.h1>
 
@@ -57,16 +55,15 @@ export const Hero: React.FC = () => {
           Проект городского аэротакси в Alatau City.
         </motion.p>
 
-        {/* Scroll Indicator */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, delay: 1.5 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <ChevronDown className="text-white/70 w-8 h-8" />
-        </motion.div>
+        
       </div>
+      <style>{`
+        .hero-outline {
+          text-shadow:
+            0 0 8px rgba(107, 70, 193, 0.4),
+            0 0 16px rgba(107, 70, 193, 0.28);
+        }
+      `}</style>
       
       {/* Decorative Lines */}
       <div className="absolute top-0 left-10 h-full w-[1px] bg-white/10 hidden md:block"></div>
