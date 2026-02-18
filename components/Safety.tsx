@@ -60,7 +60,7 @@ export const Safety: React.FC = () => {
         <div className="absolute inset-0 bg-white/75"></div>
       </div>
 
-      <div ref={sectionRef} className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 md:pt-28 pb-16 mt-16">
+      <div ref={sectionRef} className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 md:pt-28 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.4em] text-aaag-blue">
