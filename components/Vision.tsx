@@ -28,7 +28,11 @@ const Counter = ({ value, from = 0, prefix = "", suffix = "" }: { value: number,
 
 export const Vision: React.FC = () => {
   return (
-    <section id="vision" className="bg-gradient-to-r from-aaag-blue to-purple-900 snap-start snap-always h-screen flex items-center justify-center text-center text-white p-6 relative overflow-hidden">
+    <section
+      id="vision"
+      className="bg-gradient-to-r from-aaag-blue to-purple-900 snap-start snap-always h-screen flex items-center justify-center text-center text-white p-6 relative overflow-hidden"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px 1000px' }}
+    >
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
             <BackgroundImage

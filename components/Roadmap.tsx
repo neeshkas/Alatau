@@ -31,7 +31,10 @@ export const Roadmap: React.FC = () => {
                         key={index}
                         initial={{ opacity: 0, x: 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: index * 0.2 }}
+                        transition={{
+                          duration: item.year === '2028' ? 0.35 : 0.8,
+                          delay: item.year === '2028' ? index * 0.08 : index * 0.2,
+                        }}
                         viewport={{ once: true }}
                         className="relative w-[300px] md:w-[400px] group"
                     >

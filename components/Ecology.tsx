@@ -22,6 +22,7 @@ export const Ecology: React.FC = () => {
           height={1632}
           className="w-full h-full object-cover"
           decoding="async"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-white/70"></div>
       </div>

@@ -56,6 +56,7 @@ export const Safety: React.FC = () => {
           height={1632}
           className="w-full h-full object-cover"
           decoding="async"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-white/75"></div>
       </div>

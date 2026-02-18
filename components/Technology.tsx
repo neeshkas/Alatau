@@ -53,6 +53,7 @@ export const Technology: React.FC = () => {
           height={1632}
           className="w-full h-full object-cover brightness-125"
           decoding="async"
+          loading="lazy"
         />
         {/* Dark overlay to make text readable */}
         <div className="absolute inset-0 bg-aaag-dark/65 backdrop-blur-[2px]"></div>

@@ -4,7 +4,10 @@ import heroPoster from '../assets/evtol-optimized/hero-poster.jpg';
 
 export const Hero: React.FC = () => {
   return (
-    <div className="relative h-screen w-full overflow-hidden snap-start snap-always">
+    <div
+      className="relative h-screen w-full overflow-hidden snap-start snap-always"
+      style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px 1000px' }}
+    >
       {/* Video Background */}
       <div className="absolute inset-0 z-0">
         <video 
