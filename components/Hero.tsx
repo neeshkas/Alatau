@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import heroPoster from '../assets/evtol-optimized/hero-poster.jpg';
+import heroPoster from '../assets/photo_for_block2.png';
 
 export const Hero: React.FC = () => {
   return (

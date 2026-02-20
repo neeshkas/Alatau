@@ -2,18 +2,20 @@ import React from 'react';
 import { Section } from './Section';
 import { ROADMAP_DATA } from '../constants';
 import { motion } from 'framer-motion';
-import { BackgroundImage } from './BackgroundImage';
+import RoadmapBg from '../assets/roadmap.png';
 
 export const Roadmap: React.FC = () => {
   return (
     <Section id="roadmap" className="bg-aaag-dark text-white overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <BackgroundImage
-          base="cityairbus-3b"
+        <img
+          src={RoadmapBg}
           alt="eVTOL Roadmap"
-          className="w-full h-full object-cover"
           width={1600}
           height={900}
+          className="w-full h-full object-cover"
+          decoding="async"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-aaag-dark/85"></div>
       </div>

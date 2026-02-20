@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
-import { BackgroundImage } from './BackgroundImage';
+import VisionBg from '../assets/vision.png';
 
 // CountUp Component
 const Counter = ({ value, from = 0, prefix = "", suffix = "" }: { value: number, from?: number, prefix?: string, suffix?: string }) => {
@@ -35,12 +35,14 @@ export const Vision: React.FC = () => {
     >
         {/* Animated Background Elements */}
         <div className="absolute inset-0">
-            <BackgroundImage
-                base="lilium-model"
+            <img
+                src={VisionBg}
                 alt="eVTOL Vision"
-                className="w-full h-full object-cover opacity-20"
                 width={1600}
                 height={834}
+                className="w-full h-full object-cover opacity-20"
+                decoding="async"
+                loading="lazy"
             />
         </div>
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent via-aaag-dark/50 to-aaag-dark/80"></div>
