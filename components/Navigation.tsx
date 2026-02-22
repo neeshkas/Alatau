@@ -67,13 +67,13 @@ export const Navigation: React.FC = () => {
             <a
               key={item.href}
               href={item.href}
-              className="text-white text-sm font-medium uppercase tracking-wider hover:text-aaag-blue transition-colors relative group"
+              className="text-white text-sm font-medium uppercase tracking-wider hover:text-cyan-400 transition-colors relative group"
             >
               {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-aaag-blue transition-all duration-300 group-hover:w-full"></span>
+              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
             </a>
           ))}
-          <button className="px-6 py-2 border border-white rounded-full text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-aaag-blue transition-all duration-300">
+          <button className="px-6 py-2 border border-white rounded-full text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-cyan-400 transition-all duration-300">
             {'\u0421\u0432\u044f\u0437\u0430\u0442\u044c\u0441\u044f'}
           </button>
         </div>
@@ -94,7 +94,7 @@ export const Navigation: React.FC = () => {
             key={item.href}
             href={item.href}
             onClick={() => setIsMobileOpen(false)}
-            className="text-2xl font-light text-white uppercase tracking-widest hover:text-aaag-blue transition-colors"
+            className="text-2xl font-light text-white uppercase tracking-widest hover:text-cyan-400 transition-colors"
           >
             {item.label}
           </a>
