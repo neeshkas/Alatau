@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Section } from './Section';
 import { ROUTES_DATA } from '../constants';
 import { motion } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
-import { BackgroundImage } from './BackgroundImage';
+import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
 export const RoutesMap: React.FC = () => {
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
 
+  const active = useMemo(
+    () => ROUTES_DATA.find((route) => route.id === activeRoute) ?? ROUTES_DATA[0],
+    [activeRoute]
+  );
+
+  const positions = useMemo(
+    () => [active.coordinates.start, active.coordinates.end],
+    [active]
+  );
+
+  const formatCoord = (value: number) => value.toFixed(3);
+
   return (
     <Section id="routes" className="bg-[#0f172a] text-white">
       <div className="absolute inset-0 z-0">
-        <BackgroundImage
-          base="cityairbus-3b"
-          alt="eVTOL Routes"
-          className="w-full h-full object-cover"
-          width={1600}
-          height={900}
-        />
         <div className="absolute inset-0 bg-[#0f172a]/80"></div>
       </div>
       <div className="mt-16 lg:mt-20 flex flex-col lg:flex-row w-full h-full min-h-[80vh] max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative z-10">
@@ -26,7 +32,7 @@ export const RoutesMap: React.FC = () => {
         <div className="w-full lg:w-1/3 bg-aaag-blue/20 backdrop-blur-xl p-8 flex flex-col z-20">
             <h2 className="text-3xl font-bold mb-8 uppercase tracking-widest flex items-center gap-3">
                 <Navigation className="text-aaag-blue" />
-                РњР°СЂС€СЂСѓС‚С‹
+                Маршруты
             </h2>
             
             <div className="space-y-4">
@@ -62,14 +68,32 @@ export const RoutesMap: React.FC = () => {
 
         {/* Map Visualization */}
         <div className="relative w-full lg:w-2/3 bg-[#0B1121] overflow-hidden flex items-center justify-center">
-            {/* Map Background (Styled) */}
-            <div className="absolute inset-0 opacity-50 bg-[url('https://api.mapbox.com/styles/v1/mapbox/dark-v10/static/77.0,43.25,10,0/800x600?access_token=pk.eyJ1IjoiZXhhbXBsZSIsImEiOiJja2xsIn0.xyz')] bg-cover bg-center grayscale contrast-125"></div>
-            
+            {/* OpenStreetMap */}
+            <MapContainer
+              center={[43.25, 76.95]}
+              zoom={9}
+              scrollWheelZoom={false}
+              zoomControl={false}
+              className="absolute inset-0 z-0"
+            >
+              <TileLayer
+                attribution="© OpenStreetMap contributors"
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              />
+              <Polyline positions={positions} pathOptions={{ color: '#38bdf8', weight: 4, opacity: 0.8 }} />
+              <CircleMarker center={active.coordinates.start} radius={7} pathOptions={{ color: '#3B2E73', weight: 2, fillColor: '#3B2E73', fillOpacity: 0.9 }}>
+                <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Старт</Tooltip>
+              </CircleMarker>
+              <CircleMarker center={active.coordinates.end} radius={7} pathOptions={{ color: '#ef4444', weight: 2, fillColor: '#ef4444', fillOpacity: 0.9 }}>
+                <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Финиш</Tooltip>
+              </CircleMarker>
+            </MapContainer>
+
             {/* Grid Overlay for Tech feel */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(59,46,115,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(59,46,115,0.12)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(59,46,115,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(59,46,115,0.12)_1px,transparent_1px)] bg-[size:50px_50px] z-10"></div>
 
             {/* SVG Overlay - Using viewBox to ensure coordinates align perfectly */}
-            <svg className="w-full h-full absolute inset-0 z-10" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
+            <svg className="w-full h-full absolute inset-0 z-20" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice">
                 <defs>
                     <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#3B2E73" stopOpacity="0" />
@@ -133,7 +157,9 @@ export const RoutesMap: React.FC = () => {
             
             <div className="absolute bottom-8 right-8 text-right z-20">
                 <p className="text-xs text-aaag-blue font-mono mb-1">COORDINATES</p>
-                <p className="font-mono text-xl tracking-widest">43.238В° N, 76.882В° E</p>
+                <p className="font-mono text-lg tracking-widest">
+                  {formatCoord(active.coordinates.start[0])}° N, {formatCoord(active.coordinates.start[1])}° E
+                </p>
             </div>
         </div>
       </div>
