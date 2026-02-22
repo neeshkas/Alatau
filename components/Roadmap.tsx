@@ -45,7 +45,7 @@ export const Roadmap: React.FC = () => {
                         <div className="absolute top-[-5px] left-0 w-3 h-3 bg-aaag-blue rounded-full shadow-[0_0_15px_rgba(59,46,115,0.6)]"></div>
 
                         <div className="pt-8 pl-2 border-l border-white/10 group-hover:border-white/30 transition-all p-6 min-h-[300px] bg-white/5 backdrop-blur-sm rounded-br-3xl mt-4">
-                            <span className="text-6xl font-black text-white/10 absolute top-4 right-4 z-0 group-hover:text-aaag-blue/10 transition-colors">
+                            <span className="text-6xl font-black text-white/10 absolute top-4 right-4 z-0 group-hover:text-white/60 transition-colors">
                                 {item.year}
                             </span>
                             <div className="relative z-10">
