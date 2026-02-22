@@ -90,7 +90,7 @@ export const Safety: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-12 lg:-ml-20">
+        <div className="mt-12">
           <div className="inline-flex items-center gap-3 mb-5">
             <span className="h-px w-10 bg-aaag-blue/60"></span>
             <p className="text-xs font-semibold text-aaag-dark uppercase tracking-[0.35em]">Design Philosophy</p>
@@ -106,7 +106,7 @@ export const Safety: React.FC = () => {
                   whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
                   viewport={{ once: true, amount: 0.5 }}
-                  className={`rounded-xl border p-5 bg-white shadow-[0_10px_22px_rgba(15,23,42,0.08)] transition-colors min-h-[130px] aspect-[5/2] ${
+                  className={`rounded-xl border p-6 bg-white shadow-[0_12px_26px_rgba(15,23,42,0.08)] transition-colors min-h-[180px] aspect-[4/3] ${
                     isActive ? 'border-[#CFC6E8]' : 'border-[#EEEAF7]'
                   }`}
                 >
