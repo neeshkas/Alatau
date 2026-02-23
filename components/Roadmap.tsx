@@ -2,11 +2,11 @@ import React from 'react';
 import { Section } from './Section';
 import { ROADMAP_DATA } from '../constants';
 import { motion } from 'framer-motion';
-import RoadmapBg from '../assets/roadmap.png';
+import RoadmapBg from '../assets/routes.png';
 
 export const Roadmap: React.FC = () => {
   return (
-    <Section id="roadmap" className="bg-aaag-dark text-white overflow-hidden">
+    <Section id="roadmap" className="text-white overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img
           src={RoadmapBg}
@@ -17,7 +17,7 @@ export const Roadmap: React.FC = () => {
           decoding="async"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-aaag-dark/85"></div>
+        <div className="absolute inset-0 bg-aaag-dark/70"></div>
       </div>
       <div className="w-full h-full flex flex-col justify-center py-20 relative z-10">
         <div className="max-w-7xl mx-auto px-6 w-full mb-12">

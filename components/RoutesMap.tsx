@@ -7,15 +7,18 @@ import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane,
 import type { Polyline as LeafletPolyline } from 'leaflet';
 import almatyBoundaryRaw from '../assets/data/almaty-boundary.geojson?raw';
 import almatyRoadsRaw from '../assets/data/almaty-roads.geojson?raw';
+import RoutesBg from '../for routes.png';
 
 const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
   const map = useMap();
 
   React.useEffect(() => {
-    const id = window.setTimeout(() => {
-      map.invalidateSize();
-    }, 0);
-    return () => window.clearTimeout(id);
+    const id1 = window.setTimeout(() => map.invalidateSize(), 0);
+    const id2 = window.setTimeout(() => map.invalidateSize(), 150);
+    return () => {
+      window.clearTimeout(id1);
+      window.clearTimeout(id2);
+    };
   }, [map, trigger]);
 
   return null;
@@ -27,11 +30,13 @@ const MapFit: React.FC<{ positions: [number, number][]; trigger: string | null }
   React.useEffect(() => {
     if (!positions.length) return;
     const isCloseRoute = trigger === 'r1' || trigger === 'r2';
-    map.fitBounds(positions, {
-      padding: isCloseRoute ? [40, 40] : [50, 50],
-      maxZoom: isCloseRoute ? 15 : 14,
-      animate: false,
-    });
+    const padding = isCloseRoute ? [40, 40] : [50, 50];
+    const maxZoom = isCloseRoute ? 15 : 14;
+    map.fitBounds(positions, { padding, maxZoom, animate: false });
+    const id = window.setTimeout(() => {
+      map.fitBounds(positions, { padding, maxZoom, animate: false });
+    }, 120);
+    return () => window.clearTimeout(id);
   }, [map, positions, trigger]);
 
   return null;
@@ -259,17 +264,17 @@ const MapLabelsOverlay: React.FC<{
     <div className="absolute inset-0 z-[690] pointer-events-none">
       <div
         className="absolute"
-        style={{ left: labels.s.x + 14, top: labels.s.y - 22 }}
+        style={{ left: labels.s.x + 14, top: labels.s.y - 24 }}
       >
-        <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(107,91,208,0.9)]">
+        <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(107,91,208,0.9)] whitespace-nowrap">
           {from}
         </div>
       </div>
       <div
         className="absolute"
-        style={{ left: labels.e.x + 14, top: labels.e.y - 22 }}
+        style={{ left: labels.e.x + 14, top: labels.e.y - 24 }}
       >
-        <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(244,114,182,0.9)]">
+        <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(244,114,182,0.9)] whitespace-nowrap">
           {to}
         </div>
       </div>
@@ -299,15 +304,24 @@ export const RoutesMap: React.FC = () => {
   const formatCoord = (value: number) => value.toFixed(3);
 
   return (
-    <Section id="routes" className="bg-[#0f172a] text-white">
+    <Section id="routes" className="text-white">
+      <div className="absolute inset-0 z-0">
+        <img
+          src={RoutesBg}
+          alt="Routes"
+          width={1600}
+          height={900}
+          className="w-full h-full object-cover"
+          decoding="async"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-[#0f172a]/70"></div>
+      </div>
       <style>{`
         .aaag-map .leaflet-tile-pane img {
           filter: none;
         }
       `}</style>
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-[#0f172a]/80"></div>
-      </div>
       <div className="mt-16 lg:mt-20 flex flex-col lg:flex-row w-full h-full min-h-[80vh] max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative z-10">
         
         {/* Sidebar / Accordion */}
