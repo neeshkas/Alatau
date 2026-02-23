@@ -6,7 +6,7 @@ import { BackgroundImage } from './BackgroundImage';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-aaag-dark text-white pt-20 pb-10 border-t border-white/10 snap-start relative overflow-hidden">
+    <footer id="footer" className="bg-aaag-dark text-white pt-20 pb-10 border-t border-white/10 snap-start relative overflow-hidden">
       <div className="absolute inset-0 z-0">
         <BackgroundImage
           base="bell-nexus-air-taxi"

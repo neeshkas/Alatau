@@ -96,7 +96,7 @@ export const Safety: React.FC = () => {
             <p className="text-xs font-semibold text-aaag-dark uppercase tracking-[0.35em]">Design Philosophy</p>
             <span className="h-px w-10 bg-aaag-blue/60"></span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-10">
             {SAFETY_POINTS.slice(0, 3).map((point, idx) => {
               const isActive = idx === activeIndex || shouldReduceMotion;
               return (

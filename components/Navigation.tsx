@@ -6,6 +6,7 @@ export const Navigation: React.FC = () => {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSafetyActive, setIsSafetyActive] = useState(false);
   const [isEcologyActive, setIsEcologyActive] = useState(false);
+  const [isFooterActive, setIsFooterActive] = useState(false);
   const navItems = [
     { label: '\u0422\u0435\u0445\u043d\u043e\u043b\u043e\u0433\u0438\u044f', href: '#technology' },
     { label: '\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u043e\u0441\u0442\u044c', href: '#safety' },
@@ -47,10 +48,28 @@ export const Navigation: React.FC = () => {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    const scrollRoot = document.querySelector('main');
+    const target = document.querySelector('#footer');
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterActive(entry.isIntersecting);
+      },
+      { root: scrollRoot ?? null, threshold: 0.05, rootMargin: '0px 0px -20% 0px' }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
   const navClasses = `fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out px-6 ${
-    isSafetyActive || isEcologyActive
-      ? 'bg-aaag-blue/90 backdrop-blur-md shadow-lg py-3'
-      : 'bg-transparent py-6'
+    isFooterActive
+      ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-aaag-blue/15 py-3 text-aaag-blue'
+      : isSafetyActive || isEcologyActive
+        ? 'bg-aaag-blue/90 backdrop-blur-md shadow-lg py-3'
+        : 'bg-transparent py-6'
   }`;
 
   return (
@@ -62,25 +81,29 @@ export const Navigation: React.FC = () => {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className={`hidden md:flex items-center gap-8 ${isFooterActive ? 'text-aaag-blue' : 'text-white'}`}>
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className="text-white text-sm font-medium uppercase tracking-wider hover:text-cyan-400 transition-colors relative group"
+              className={`${isFooterActive ? 'text-aaag-blue hover:text-aaag-dark' : 'text-white hover:text-cyan-400'} text-sm font-medium uppercase tracking-wider transition-colors relative group`}
             >
               {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-cyan-400 transition-all duration-300 group-hover:w-full"></span>
+              <span className={`absolute -bottom-1 left-0 w-0 h-[1px] ${isFooterActive ? 'bg-aaag-blue' : 'bg-cyan-400'} transition-all duration-300 group-hover:w-full`}></span>
             </a>
           ))}
-          <button className="px-6 py-2 border border-white rounded-full text-white text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-cyan-400 transition-all duration-300">
+          <button className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+            isFooterActive
+              ? 'border border-aaag-blue text-aaag-blue hover:bg-aaag-blue hover:text-white'
+              : 'border border-white text-white hover:bg-white hover:text-cyan-400'
+          }`}>
             {'\u0421\u0432\u044f\u0437\u0430\u0442\u044c\u0441\u044f'}
           </button>
         </div>
 
         {/* Mobile Hamburger */}
         <button
-          className="md:hidden text-white"
+          className={`md:hidden ${isFooterActive ? 'text-aaag-blue' : 'text-white'}`}
           onClick={() => setIsMobileOpen(!isMobileOpen)}
         >
           {isMobileOpen ? <X size={24} /> : <Menu size={24} />}

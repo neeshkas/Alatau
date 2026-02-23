@@ -3,8 +3,10 @@ import { Section } from './Section';
 import { ROUTES_DATA } from '../constants';
 import { motion } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
-import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, Circle } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, GeoJSON } from 'react-leaflet';
 import type { Polyline as LeafletPolyline } from 'leaflet';
+import almatyBoundaryRaw from '../assets/data/almaty-boundary.geojson?raw';
+import almatyRoadsRaw from '../assets/data/almaty-roads.geojson?raw';
 
 const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
   const map = useMap();
@@ -281,6 +283,8 @@ const MapLabelsOverlay: React.FC<{
 };
 
 export const RoutesMap: React.FC = () => {
+  const almatyBoundary = React.useMemo(() => JSON.parse(almatyBoundaryRaw), []);
+  const almatyRoads = React.useMemo(() => JSON.parse(almatyRoadsRaw), []);
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
 
   const active = useMemo(
@@ -292,8 +296,6 @@ export const RoutesMap: React.FC = () => {
     () => [active.coordinates.start, active.coordinates.end],
     [active]
   );
-  const almatyCenter: [number, number] = [43.238, 76.945];
-
   const formatCoord = (value: number) => value.toFixed(3);
 
   return (
@@ -362,16 +364,16 @@ export const RoutesMap: React.FC = () => {
                 attribution="© OpenStreetMap contributors © CARTO"
                 url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
               />
-              <Pane name="almaty-boundary" style={{ zIndex: 620 }}>
-                <Circle
-                  center={almatyCenter}
-                  radius={26000}
-                  pathOptions={{ color: '#6B5BD0', weight: 2, opacity: 0.6, fillColor: '#6B5BD0', fillOpacity: 0.08 }}
+              <Pane name="almaty-roads" style={{ zIndex: 610 }}>
+                <GeoJSON
+                  data={almatyRoads as any}
+                  pathOptions={{ color: '#9F93FF', weight: 1.2, opacity: 0.35 }}
                 />
-                <Circle
-                  center={almatyCenter}
-                  radius={26000}
-                  pathOptions={{ color: '#C4B5FD', weight: 10, opacity: 0.08, fillOpacity: 0 }}
+              </Pane>
+              <Pane name="almaty-boundary" style={{ zIndex: 620 }}>
+                <GeoJSON
+                  data={almatyBoundary as any}
+                  pathOptions={{ color: '#C4B5FD', weight: 2.2, opacity: 0.8, fillColor: '#6B5BD0', fillOpacity: 0.06 }}
                 />
               </Pane>
               <Pane name="route-base" style={{ zIndex: 640 }}>
