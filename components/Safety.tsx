@@ -63,7 +63,7 @@ export const Safety: React.FC = () => {
       </div>
       <div ref={sectionRef} className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-20 md:pt-24 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
-          <div className="lg:-ml-20">
+          <div>
             <div className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.4em] text-aaag-blue">
               <span className="h-px w-10 bg-aaag-blue"></span>
               Safety Architecture
@@ -96,7 +96,7 @@ export const Safety: React.FC = () => {
             <p className="text-xs font-semibold text-aaag-dark uppercase tracking-[0.35em]">Design Philosophy</p>
             <span className="h-px w-10 bg-aaag-blue/60"></span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {SAFETY_POINTS.slice(0, 3).map((point, idx) => {
               const isActive = idx === activeIndex || shouldReduceMotion;
               return (
@@ -106,7 +106,7 @@ export const Safety: React.FC = () => {
                   whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: idx * 0.05 }}
                   viewport={{ once: true, amount: 0.5 }}
-                  className={`rounded-xl border p-6 bg-white shadow-[0_12px_26px_rgba(15,23,42,0.08)] transition-colors min-h-[180px] aspect-[4/3] ${
+                  className={`rounded-xl border p-6 bg-white shadow-[0_12px_26px_rgba(15,23,42,0.08)] transition-colors min-h-[160px] aspect-[5/2] ${
                     isActive ? 'border-[#CFC6E8]' : 'border-[#EEEAF7]'
                   }`}
                 >

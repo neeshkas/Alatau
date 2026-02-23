@@ -1,10 +1,9 @@
-import React, { useMemo, useState } from 'react';
+ï»¿import React, { useMemo, useState } from 'react';
 import { Section } from './Section';
 import { ROUTES_DATA } from '../constants';
 import { motion } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 
 export const RoutesMap: React.FC = () => {
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
@@ -32,7 +31,7 @@ export const RoutesMap: React.FC = () => {
         <div className="w-full lg:w-1/3 bg-aaag-blue/20 backdrop-blur-xl p-8 flex flex-col z-20">
             <h2 className="text-3xl font-bold mb-8 uppercase tracking-widest flex items-center gap-3">
                 <Navigation className="text-aaag-blue" />
-                Ìàðøðóòû
+                ÐœÐ°Ñ€ÑˆÑ€ÑƒÑ‚Ñ‹
             </h2>
             
             <div className="space-y-4">
@@ -68,24 +67,24 @@ export const RoutesMap: React.FC = () => {
 
         {/* Map Visualization */}
         <div className="relative w-full lg:w-2/3 bg-[#0B1121] overflow-hidden flex items-center justify-center">
-            {/* OpenStreetMap */}
             <MapContainer
               center={[43.25, 76.95]}
               zoom={9}
               scrollWheelZoom={false}
               zoomControl={false}
               className="absolute inset-0 z-0"
+              style={{ height: '100%', width: '100%' }}
             >
               <TileLayer
-                attribution="© OpenStreetMap contributors"
+                attribution="Â© OpenStreetMap contributors"
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               />
               <Polyline positions={positions} pathOptions={{ color: '#38bdf8', weight: 4, opacity: 0.8 }} />
               <CircleMarker center={active.coordinates.start} radius={7} pathOptions={{ color: '#3B2E73', weight: 2, fillColor: '#3B2E73', fillOpacity: 0.9 }}>
-                <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Ñòàðò</Tooltip>
+                <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Ð¡Ñ‚Ð°Ñ€Ñ‚</Tooltip>
               </CircleMarker>
               <CircleMarker center={active.coordinates.end} radius={7} pathOptions={{ color: '#ef4444', weight: 2, fillColor: '#ef4444', fillOpacity: 0.9 }}>
-                <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Ôèíèø</Tooltip>
+                <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Ð¤Ð¸Ð½Ð¸Ñˆ</Tooltip>
               </CircleMarker>
             </MapContainer>
 
@@ -158,7 +157,7 @@ export const RoutesMap: React.FC = () => {
             <div className="absolute bottom-8 right-8 text-right z-20">
                 <p className="text-xs text-aaag-blue font-mono mb-1">COORDINATES</p>
                 <p className="font-mono text-lg tracking-widest">
-                  {formatCoord(active.coordinates.start[0])}° N, {formatCoord(active.coordinates.start[1])}° E
+                  {formatCoord(active.coordinates.start[0])}Â° N, {formatCoord(active.coordinates.start[1])}Â° E
                 </p>
             </div>
         </div>
