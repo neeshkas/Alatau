@@ -96,16 +96,32 @@ export const Safety: React.FC = () => {
             <p className="text-xs font-semibold text-aaag-dark uppercase tracking-[0.35em]">Design Philosophy</p>
             <span className="h-px w-10 bg-aaag-blue/60"></span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-10">
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-3 gap-y-8 gap-x-10"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.4 }}
+            variants={{
+              hidden: {},
+              show: {
+                transition: { staggerChildren: 0.18 },
+              },
+            }}
+          >
             {SAFETY_POINTS.slice(0, 3).map((point, idx) => {
               const isActive = idx === activeIndex || shouldReduceMotion;
               return (
                 <motion.div
                   key={point.title}
-                  initial={shouldReduceMotion ? false : { opacity: 0, y: 10 }}
-                  whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: idx * 0.05 }}
-                  viewport={{ once: true, amount: 0.5 }}
+                  variants={
+                    shouldReduceMotion
+                      ? {}
+                      : {
+                          hidden: { opacity: 0, y: 14, scale: 0.98 },
+                          show: { opacity: 1, y: 0, scale: 1 },
+                        }
+                  }
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
                   className={`rounded-xl border p-6 bg-white shadow-[0_12px_26px_rgba(15,23,42,0.08)] transition-colors min-h-[160px] aspect-[5/2] ${
                     isActive ? 'border-[#CFC6E8]' : 'border-[#EEEAF7]'
                   }`}
@@ -124,7 +140,7 @@ export const Safety: React.FC = () => {
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </div>
     </Section>

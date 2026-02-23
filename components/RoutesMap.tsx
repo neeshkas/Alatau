@@ -130,7 +130,7 @@ const AnimatedRoute: React.FC<{
     path.style.strokeDashoffset = `${length}`;
     path.getBoundingClientRect();
     requestAnimationFrame(() => {
-      path.style.transition = 'stroke-dashoffset 4s ease-in-out';
+      path.style.transition = 'stroke-dashoffset 3s ease-in-out';
       path.style.strokeDashoffset = '0';
     });
 
@@ -179,7 +179,7 @@ const MapPlaneOverlay: React.FC<{
   React.useEffect(() => {
     setProgress(0);
     const controls = animate(0, 1, {
-      duration: 4,
+      duration: 3,
       ease: 'easeInOut',
       onUpdate: (v) => {
         setProgress(v);
@@ -310,6 +310,31 @@ export const RoutesMap: React.FC = () => {
     () => [active.coordinates.start, active.coordinates.end],
     [active]
   );
+
+  const formatTime = (minutesTotal: number) => {
+    const mins = Math.max(1, Math.round(minutesTotal));
+    if (mins < 60) return `${mins} мин`;
+    const h = Math.floor(mins / 60);
+    const m = mins % 60;
+    return m ? `${h} ч ${m} мин` : `${h} ч`;
+  };
+
+  const routeMinutes = useMemo(() => {
+    const [lat1, lon1] = active.coordinates.start;
+    const [lat2, lon2] = active.coordinates.end;
+    const R = 6371; // km
+    const toRad = (v: number) => (v * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distanceKm = R * c;
+    const speedKmh = 180;
+    return (distanceKm / speedKmh) * 60;
+  }, [active]);
   const formatCoord = (value: number) => value.toFixed(3);
 
   React.useEffect(() => {
@@ -469,7 +494,7 @@ export const RoutesMap: React.FC = () => {
                 Estimated Time
               </div>
               <div className="text-3xl md:text-4xl font-semibold text-cyan-300 drop-shadow-[0_0_18px_rgba(34,211,238,0.6)]">
-                12 мин
+                {formatTime(routeMinutes)}
               </div>
             </div>
             <div className="absolute top-6 right-6 z-20 text-[10px] uppercase tracking-[0.35em] text-white/60 text-right">
