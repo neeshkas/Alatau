@@ -3,7 +3,7 @@ import { Section } from './Section';
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion';
 import { ShieldCheck, Anchor, BatteryCharging, Activity } from 'lucide-react';
 import SafetyBg from '../assets/assets/photo_for_block3.png';
-import SafetyCenter from '../eVTOL.png';
+import SafetyCenter from '../assets/evtol for security block.png';
 
 const SAFETY_POINTS = [
   {
@@ -52,7 +52,7 @@ export const Safety: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <img
           src={SafetyBg}
-          alt="Safety"
+          alt="фоно"
           width={2624}
           height={1632}
           className="w-full h-full object-cover"
@@ -79,10 +79,10 @@ export const Safety: React.FC = () => {
             </p>
           </div>
 
-          <div className="w-full h-full lg:scale-[0.92] lg:origin-center lg:translate-x-6">
+          <div className="w-full h-full lg:scale-[1.05] lg:origin-center lg:translate-x-6">
             <img
               src={SafetyCenter}
-              alt="Safety"
+              alt="прикол"
               className="w-full h-full object-contain"
               decoding="async"
               loading="lazy"

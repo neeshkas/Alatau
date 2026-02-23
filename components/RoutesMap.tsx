@@ -1,13 +1,13 @@
 ﻿import React, { useMemo, useState } from 'react';
 import { Section } from './Section';
 import { ROUTES_DATA } from '../constants';
-import { motion } from 'framer-motion';
+import { motion, animate } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, GeoJSON } from 'react-leaflet';
 import type { Polyline as LeafletPolyline } from 'leaflet';
 import almatyBoundaryRaw from '../assets/data/almaty-boundary.geojson?raw';
 import almatyRoadsRaw from '../assets/data/almaty-roads.geojson?raw';
-import RoutesBg from '../for routes.png';
+import RoutesBg from '../assets/for routes.png';
 
 const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
   const map = useMap();
@@ -130,7 +130,7 @@ const AnimatedRoute: React.FC<{
     path.style.strokeDashoffset = `${length}`;
     path.getBoundingClientRect();
     requestAnimationFrame(() => {
-      path.style.transition = 'stroke-dashoffset 2.2s ease-in-out';
+      path.style.transition = 'stroke-dashoffset 4s ease-in-out';
       path.style.strokeDashoffset = '0';
     });
 
@@ -151,11 +151,13 @@ const MapPlaneOverlay: React.FC<{
   start: [number, number];
   end: [number, number];
   trigger: string | null;
-}> = ({ start, end, trigger }) => {
+  onPositionChange?: (coords: [number, number]) => void;
+}> = ({ start, end, trigger, onPositionChange }) => {
   const map = useMap();
   const [data, setData] = useState(() => ({
     path: '',
   }));
+  const [progress, setProgress] = useState(0);
 
   const update = React.useCallback(() => {
     const s = map.latLngToContainerPoint(start);
@@ -174,6 +176,21 @@ const MapPlaneOverlay: React.FC<{
     resize: update,
   });
 
+  React.useEffect(() => {
+    setProgress(0);
+    const controls = animate(0, 1, {
+      duration: 4,
+      ease: 'easeInOut',
+      onUpdate: (v) => {
+        setProgress(v);
+        const lat = start[0] + (end[0] - start[0]) * v;
+        const lon = start[1] + (end[1] - start[1]) * v;
+        onPositionChange?.([lat, lon]);
+      },
+    });
+    return () => controls.stop();
+  }, [start, end, trigger, onPositionChange]);
+
   if (!data.path) return null;
 
   return (
@@ -181,11 +198,9 @@ const MapPlaneOverlay: React.FC<{
       <motion.div
         key={`plane-${trigger ?? 'route'}`}
         className="absolute"
-        initial={{ offsetDistance: '0%' }}
-        animate={{ offsetDistance: '100%' }}
-        transition={{ duration: 2.2, ease: 'easeInOut' }}
         style={{
           offsetPath: `path("${data.path}")`,
+          offsetDistance: `${progress * 100}%`,
           offsetRotate: 'auto',
         }}
       >
@@ -284,6 +299,7 @@ export const RoutesMap: React.FC = () => {
   const almatyRoads = React.useMemo(() => JSON.parse(almatyRoadsRaw), []);
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
   const [routeTick, setRouteTick] = useState(0);
+  const [planeCoords, setPlaneCoords] = useState<[number, number]>(ROUTES_DATA[0].coordinates.start);
 
   const active = useMemo(
     () => ROUTES_DATA.find((route) => route.id === activeRoute) ?? ROUTES_DATA[0],
@@ -295,6 +311,10 @@ export const RoutesMap: React.FC = () => {
     [active]
   );
   const formatCoord = (value: number) => value.toFixed(3);
+
+  React.useEffect(() => {
+    setPlaneCoords(active.coordinates.start);
+  }, [active]);
 
   React.useEffect(() => {
     const scrollRoot = document.querySelector('main');
@@ -407,7 +427,7 @@ export const RoutesMap: React.FC = () => {
               <Pane name="route-base" style={{ zIndex: 640 }}>
                 <Polyline
                   positions={positions}
-                  pathOptions={{ color: '#FFFFFF', weight: 2, opacity: 0.25, dashArray: '6 10' }}
+                  pathOptions={{ color: '#86EFAC', weight: 2.5, opacity: 0.6, dashArray: '6 10' }}
                 />
               </Pane>
               <AnimatedRoute positions={positions} trigger={`${activeRoute ?? 'route'}-${routeTick}`} />
@@ -422,6 +442,7 @@ export const RoutesMap: React.FC = () => {
                 start={active.coordinates.start}
                 end={active.coordinates.end}
                 trigger={`${activeRoute ?? 'route'}-${routeTick}`}
+                onPositionChange={setPlaneCoords}
               />
               <CircleMarker center={active.coordinates.start} radius={16} pathOptions={{ color: '#6B5BD0', weight: 1, fillColor: '#6B5BD0', fillOpacity: 0.15 }} />
               <CircleMarker center={active.coordinates.start} radius={9} pathOptions={{ color: '#3B2E73', weight: 2, fillColor: '#3B2E73', fillOpacity: 0.95 }}>
@@ -443,6 +464,14 @@ export const RoutesMap: React.FC = () => {
               Air Corridor
               <div className="mt-2 text-[10px] tracking-[0.4em] text-white/60">AAAG NAV</div>
             </div>
+            <div className="absolute left-8 top-1/2 -translate-y-1/2 z-20">
+              <div className="text-[11px] uppercase tracking-[0.35em] text-cyan-200/70 mb-2">
+                Estimated Time
+              </div>
+              <div className="text-3xl md:text-4xl font-semibold text-cyan-300 drop-shadow-[0_0_18px_rgba(34,211,238,0.6)]">
+                12 мин
+              </div>
+            </div>
             <div className="absolute top-6 right-6 z-20 text-[10px] uppercase tracking-[0.35em] text-white/60 text-right">
               Alt 120m<br />V 180km/h
             </div>
@@ -459,7 +488,7 @@ export const RoutesMap: React.FC = () => {
             <div className="absolute bottom-8 right-8 text-right z-20">
                 <p className="text-xs text-aaag-blue font-mono mb-1">COORDINATES</p>
                 <p className="font-mono text-lg tracking-widest">
-                  {formatCoord(active.coordinates.start[0])}° N, {formatCoord(active.coordinates.start[1])}° E
+                  {formatCoord(planeCoords[0])}° N, {formatCoord(planeCoords[1])}° E
                 </p>
             </div>
         </div>

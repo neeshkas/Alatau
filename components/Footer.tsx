@@ -2,20 +2,22 @@ import React from 'react';
 import { PARTNERS_DATA } from '../constants';
 import { MapPin, Mail, Linkedin, Twitter, Instagram } from 'lucide-react';
 import AAAGLogo from '../assets/assets/AAAG Logo.svg';
-import { BackgroundImage } from './BackgroundImage';
+import FooterBg from '../assets/for footer.png';
 
 export const Footer: React.FC = () => {
   return (
     <footer id="footer" className="bg-aaag-dark text-white pt-20 pb-10 border-t border-white/10 snap-start relative overflow-hidden">
       <div className="absolute inset-0 z-0">
-        <BackgroundImage
-          base="bell-nexus-air-taxi"
-          alt="eVTOL Night"
+        <img
+          src={FooterBg}
+          alt="Footer background"
+          width={1600}
+          height={900}
           className="w-full h-full object-cover"
-          width={640}
-          height={480}
+          decoding="async"
+          loading="lazy"
         />
-        <div className="absolute inset-0 bg-aaag-dark/90"></div>
+        <div className="absolute inset-0 bg-aaag-dark/85"></div>
       </div>
         
       {/* Ticker / Partners */}
