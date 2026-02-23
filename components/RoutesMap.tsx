@@ -24,12 +24,12 @@ const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
   return null;
 };
 
-const MapFit: React.FC<{ positions: [number, number][]; trigger: string | null }> = ({ positions, trigger }) => {
+const MapFit: React.FC<{ positions: [number, number][]; routeId: string | null }> = ({ positions, routeId }) => {
   const map = useMap();
 
   React.useEffect(() => {
     if (!positions.length) return;
-    const isCloseRoute = trigger === 'r1' || trigger === 'r2';
+    const isCloseRoute = routeId === 'r1' || routeId === 'r2';
     const padding = isCloseRoute ? [40, 40] : [50, 50];
     const maxZoom = isCloseRoute ? 15 : 14;
     map.fitBounds(positions, { padding, maxZoom, animate: false });
@@ -37,7 +37,7 @@ const MapFit: React.FC<{ positions: [number, number][]; trigger: string | null }
       map.fitBounds(positions, { padding, maxZoom, animate: false });
     }, 120);
     return () => window.clearTimeout(id);
-  }, [map, positions, trigger]);
+  }, [map, positions, routeId]);
 
   return null;
 };
@@ -48,8 +48,6 @@ const AnimatedRoute: React.FC<{
 }> = ({ positions, trigger }) => {
   const polylineRef = React.useRef<LeafletPolyline | null>(null);
   const map = useMap();
-  const animatedFor = React.useRef<string | null>(null);
-
   React.useEffect(() => {
     const layer = polylineRef.current;
     const path = layer ? (layer as any)._path as SVGPathElement | undefined : undefined;
@@ -76,25 +74,27 @@ const AnimatedRoute: React.FC<{
         gradient.setAttribute('y1', '0%');
         gradient.setAttribute('x2', '100%');
         gradient.setAttribute('y2', '0%');
-
-        const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        stop1.setAttribute('offset', '0%');
-        stop1.setAttribute('stop-color', '#3B2E73');
-        stop1.setAttribute('stop-opacity', '0.35');
-
-        const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        stop2.setAttribute('offset', '50%');
-        stop2.setAttribute('stop-color', '#6B5BD0');
-        stop2.setAttribute('stop-opacity', '1');
-
-        const stop3 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
-        stop3.setAttribute('offset', '100%');
-        stop3.setAttribute('stop-color', '#3B2E73');
-        stop3.setAttribute('stop-opacity', '0.35');
-
-        gradient.append(stop1, stop2, stop3);
         defs.appendChild(gradient);
       }
+
+      while (gradient.firstChild) gradient.removeChild(gradient.firstChild);
+
+      const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      stop1.setAttribute('offset', '0%');
+      stop1.setAttribute('stop-color', '#FFFFFF');
+      stop1.setAttribute('stop-opacity', '0.25');
+
+      const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      stop2.setAttribute('offset', '50%');
+      stop2.setAttribute('stop-color', '#FFFFFF');
+      stop2.setAttribute('stop-opacity', '1');
+
+      const stop3 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+      stop3.setAttribute('offset', '100%');
+      stop3.setAttribute('stop-color', '#FFFFFF');
+      stop3.setAttribute('stop-opacity', '0.25');
+
+      gradient.append(stop1, stop2, stop3);
 
       let glow = defs.querySelector(`#${glowId}`) as SVGFilterElement | null;
       if (!glow) {
@@ -117,7 +117,7 @@ const AnimatedRoute: React.FC<{
         defs.appendChild(glow);
       }
 
-      path.setAttribute('stroke', `url(#${gradientId})`);
+      path.setAttribute('stroke', '#FFFFFF');
       path.setAttribute('stroke-linecap', 'round');
       path.setAttribute('stroke-linejoin', 'round');
       path.setAttribute('opacity', '1');
@@ -125,32 +125,15 @@ const AnimatedRoute: React.FC<{
     }
 
     const length = path.getTotalLength();
-    const currentKey = trigger ?? 'default';
-
     path.style.transition = 'none';
     path.style.strokeDasharray = `${length}`;
-
-    if (animatedFor.current !== currentKey) {
-      animatedFor.current = currentKey;
-      path.style.strokeDashoffset = `${length}`;
-      path.getBoundingClientRect();
-      requestAnimationFrame(() => {
-        path.style.transition = 'stroke-dashoffset 2.2s ease-in-out';
-        path.style.strokeDashoffset = '0';
-      });
-    } else {
+    path.style.strokeDashoffset = `${length}`;
+    path.getBoundingClientRect();
+    requestAnimationFrame(() => {
+      path.style.transition = 'stroke-dashoffset 2.2s ease-in-out';
       path.style.strokeDashoffset = '0';
-    }
+    });
 
-    const settle = () => {
-      const l = path.getTotalLength();
-      path.style.transition = 'none';
-      path.style.strokeDasharray = `${l}`;
-      path.style.strokeDashoffset = '0';
-    };
-
-    map.once('moveend', settle);
-    map.once('zoomend', settle);
   }, [positions, trigger, map]);
 
   return (
@@ -158,7 +141,7 @@ const AnimatedRoute: React.FC<{
       <Polyline
         ref={polylineRef}
         positions={positions}
-        pathOptions={{ color: '#3B2E73', weight: 6, opacity: 1, lineCap: 'round' }}
+        pathOptions={{ color: '#FFFFFF', weight: 6, opacity: 1, lineCap: 'round' }}
       />
     </Pane>
   );
@@ -264,7 +247,10 @@ const MapLabelsOverlay: React.FC<{
     <div className="absolute inset-0 z-[690] pointer-events-none">
       <div
         className="absolute"
-        style={{ left: labels.s.x + 14, top: labels.s.y - 24 }}
+        style={{
+          left: labels.s.x + 14,
+          top: labels.s.y - 24,
+        }}
       >
         <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(107,91,208,0.9)] whitespace-nowrap">
           {from}
@@ -272,7 +258,13 @@ const MapLabelsOverlay: React.FC<{
       </div>
       <div
         className="absolute"
-        style={{ left: labels.e.x + 14, top: labels.e.y - 24 }}
+        style={{
+          left: labels.e.x + 14,
+          top:
+            trigger === 'r2' && to.toLowerCase().includes('алатау')
+              ? labels.e.y + 12
+              : labels.e.y - 24,
+        }}
       >
         <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(244,114,182,0.9)] whitespace-nowrap">
           {to}
@@ -291,6 +283,7 @@ export const RoutesMap: React.FC = () => {
   const almatyBoundary = React.useMemo(() => JSON.parse(almatyBoundaryRaw), []);
   const almatyRoads = React.useMemo(() => JSON.parse(almatyRoadsRaw), []);
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
+  const [routeTick, setRouteTick] = useState(0);
 
   const active = useMemo(
     () => ROUTES_DATA.find((route) => route.id === activeRoute) ?? ROUTES_DATA[0],
@@ -302,6 +295,24 @@ export const RoutesMap: React.FC = () => {
     [active]
   );
   const formatCoord = (value: number) => value.toFixed(3);
+
+  React.useEffect(() => {
+    const scrollRoot = document.querySelector('main');
+    const target = document.querySelector('#routes');
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setRouteTick((v) => v + 1);
+        }
+      },
+      { root: scrollRoot ?? null, threshold: 0.35 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <Section id="routes" className="text-white">
@@ -335,7 +346,10 @@ export const RoutesMap: React.FC = () => {
                 {ROUTES_DATA.map((route) => (
                     <button
                         key={route.id}
-                        onClick={() => setActiveRoute(route.id)}
+                        onClick={() => {
+                          setActiveRoute(route.id);
+                          setRouteTick((v) => v + 1);
+                        }}
                         className={`w-full text-left p-6 rounded-xl transition-all duration-300 group border ${
                             activeRoute === route.id 
                             ? 'bg-aaag-blue text-white border-aaag-blue shadow-[0_0_20px_rgba(59,46,115,0.5)]' 
@@ -373,7 +387,7 @@ export const RoutesMap: React.FC = () => {
               style={{ height: '100%', width: '100%' }}
             >
               <MapSizeFix trigger={activeRoute} />
-              <MapFit positions={positions} trigger={activeRoute} />
+              <MapFit positions={positions} routeId={activeRoute} />
               <TileLayer
                 attribution="© OpenStreetMap contributors © CARTO"
                 url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
@@ -393,21 +407,21 @@ export const RoutesMap: React.FC = () => {
               <Pane name="route-base" style={{ zIndex: 640 }}>
                 <Polyline
                   positions={positions}
-                  pathOptions={{ color: '#6B5BD0', weight: 2, opacity: 0.35, dashArray: '6 10' }}
+                  pathOptions={{ color: '#FFFFFF', weight: 2, opacity: 0.25, dashArray: '6 10' }}
                 />
               </Pane>
-              <AnimatedRoute positions={positions} trigger={activeRoute} />
+              <AnimatedRoute positions={positions} trigger={`${activeRoute ?? 'route'}-${routeTick}`} />
               <MapLabelsOverlay
                 start={active.coordinates.start}
                 end={active.coordinates.end}
                 from={active.from}
                 to={active.to}
-                trigger={activeRoute}
+                trigger={`${activeRoute ?? 'route'}-${routeTick}`}
               />
               <MapPlaneOverlay
                 start={active.coordinates.start}
                 end={active.coordinates.end}
-                trigger={activeRoute}
+                trigger={`${activeRoute ?? 'route'}-${routeTick}`}
               />
               <CircleMarker center={active.coordinates.start} radius={16} pathOptions={{ color: '#6B5BD0', weight: 1, fillColor: '#6B5BD0', fillOpacity: 0.15 }} />
               <CircleMarker center={active.coordinates.start} radius={9} pathOptions={{ color: '#3B2E73', weight: 2, fillColor: '#3B2E73', fillOpacity: 0.95 }}>
