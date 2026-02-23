@@ -3,7 +3,7 @@ import { Section } from './Section';
 import { ROUTES_DATA } from '../constants';
 import { motion } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
-import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane } from 'react-leaflet';
+import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, Circle } from 'react-leaflet';
 import type { Polyline as LeafletPolyline } from 'leaflet';
 
 const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
@@ -24,7 +24,12 @@ const MapFit: React.FC<{ positions: [number, number][]; trigger: string | null }
 
   React.useEffect(() => {
     if (!positions.length) return;
-    map.fitBounds(positions, { padding: [50, 50], maxZoom: 14, animate: false });
+    const isCloseRoute = trigger === 'r1' || trigger === 'r2';
+    map.fitBounds(positions, {
+      padding: isCloseRoute ? [40, 40] : [50, 50],
+      maxZoom: isCloseRoute ? 15 : 14,
+      animate: false,
+    });
   }, [map, positions, trigger]);
 
   return null;
@@ -152,6 +157,129 @@ const AnimatedRoute: React.FC<{
   );
 };
 
+const MapPlaneOverlay: React.FC<{
+  start: [number, number];
+  end: [number, number];
+  trigger: string | null;
+}> = ({ start, end, trigger }) => {
+  const map = useMap();
+  const [data, setData] = useState(() => ({
+    path: '',
+  }));
+
+  const update = React.useCallback(() => {
+    const s = map.latLngToContainerPoint(start);
+    const e = map.latLngToContainerPoint(end);
+    const path = `M ${s.x} ${s.y} L ${e.x} ${e.y}`;
+    setData({ path });
+  }, [map, start, end]);
+
+  React.useEffect(() => {
+    update();
+  }, [update, trigger]);
+
+  useMapEvents({
+    move: update,
+    zoom: update,
+    resize: update,
+  });
+
+  if (!data.path) return null;
+
+  return (
+    <div className="absolute inset-0 z-[700] pointer-events-none">
+      <motion.div
+        key={`plane-${trigger ?? 'route'}`}
+        className="absolute"
+        initial={{ offsetDistance: '0%' }}
+        animate={{ offsetDistance: '100%' }}
+        transition={{ duration: 2.2, ease: 'easeInOut' }}
+        style={{
+          offsetPath: `path("${data.path}")`,
+          offsetRotate: 'auto',
+        }}
+      >
+        <div className="relative">
+          <div className="absolute inset-0 blur-md opacity-60 bg-[#6B5BD0] rounded-full"></div>
+          <svg
+            viewBox="0 0 64 64"
+            className="relative w-10 h-10 drop-shadow-[0_0_12px_rgba(107,91,208,0.85)]"
+            aria-hidden="true"
+          >
+            <g fill="none" stroke="#EDE9FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 36 L28 32 L52 36 L28 40 Z" fill="#3B2E73" />
+              <path d="M28 20 L28 46" />
+              <circle cx="14" cy="28" r="4" />
+              <circle cx="50" cy="28" r="4" />
+              <circle cx="20" cy="18" r="3" />
+              <circle cx="44" cy="18" r="3" />
+              <path d="M20 18 L28 20 L44 18" />
+              <path d="M18 28 L10 28" />
+              <path d="M54 28 L46 28" />
+            </g>
+          </svg>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+const MapLabelsOverlay: React.FC<{
+  start: [number, number];
+  end: [number, number];
+  from: string;
+  to: string;
+  trigger: string | null;
+}> = ({ start, end, from, to, trigger }) => {
+  const map = useMap();
+  const [labels, setLabels] = useState(() => ({
+    s: { x: 0, y: 0 },
+    e: { x: 0, y: 0 },
+  }));
+
+  const update = React.useCallback(() => {
+    const s = map.latLngToContainerPoint(start);
+    const e = map.latLngToContainerPoint(end);
+    setLabels({ s: { x: s.x, y: s.y }, e: { x: e.x, y: e.y } });
+  }, [map, start, end]);
+
+  React.useEffect(() => {
+    update();
+  }, [update, trigger]);
+
+  useMapEvents({
+    move: update,
+    zoom: update,
+    resize: update,
+  });
+
+  return (
+    <div className="absolute inset-0 z-[690] pointer-events-none">
+      <div
+        className="absolute"
+        style={{ left: labels.s.x + 14, top: labels.s.y - 22 }}
+      >
+        <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(107,91,208,0.9)]">
+          {from}
+        </div>
+      </div>
+      <div
+        className="absolute"
+        style={{ left: labels.e.x + 14, top: labels.e.y - 22 }}
+      >
+        <div className="text-[10px] uppercase tracking-[0.35em] text-white drop-shadow-[0_0_10px_rgba(244,114,182,0.9)]">
+          {to}
+        </div>
+      </div>
+      <div className="absolute top-6 left-1/2 -translate-x-1/2">
+        <div className="text-[10px] uppercase tracking-[0.35em] text-white/70 drop-shadow-[0_0_8px_rgba(255,255,255,0.35)]">
+          Алматы · Almaty
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export const RoutesMap: React.FC = () => {
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
 
@@ -164,11 +292,17 @@ export const RoutesMap: React.FC = () => {
     () => [active.coordinates.start, active.coordinates.end],
     [active]
   );
+  const almatyCenter: [number, number] = [43.238, 76.945];
 
   const formatCoord = (value: number) => value.toFixed(3);
 
   return (
     <Section id="routes" className="bg-[#0f172a] text-white">
+      <style>{`
+        .aaag-map .leaflet-tile-pane img {
+          filter: none;
+        }
+      `}</style>
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-[#0f172a]/80"></div>
       </div>
@@ -219,28 +353,79 @@ export const RoutesMap: React.FC = () => {
               zoom={11}
               scrollWheelZoom={false}
               zoomControl={false}
-              className="absolute inset-0 z-0"
+              className="absolute inset-0 z-0 aaag-map"
               style={{ height: '100%', width: '100%' }}
             >
               <MapSizeFix trigger={activeRoute} />
               <MapFit positions={positions} trigger={activeRoute} />
               <TileLayer
-                attribution="© OpenStreetMap contributors"
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution="© OpenStreetMap contributors © CARTO"
+                url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
               />
+              <Pane name="almaty-boundary" style={{ zIndex: 620 }}>
+                <Circle
+                  center={almatyCenter}
+                  radius={26000}
+                  pathOptions={{ color: '#6B5BD0', weight: 2, opacity: 0.6, fillColor: '#6B5BD0', fillOpacity: 0.08 }}
+                />
+                <Circle
+                  center={almatyCenter}
+                  radius={26000}
+                  pathOptions={{ color: '#C4B5FD', weight: 10, opacity: 0.08, fillOpacity: 0 }}
+                />
+              </Pane>
+              <Pane name="route-base" style={{ zIndex: 640 }}>
+                <Polyline
+                  positions={positions}
+                  pathOptions={{ color: '#6B5BD0', weight: 2, opacity: 0.35, dashArray: '6 10' }}
+                />
+              </Pane>
               <AnimatedRoute positions={positions} trigger={activeRoute} />
-              <CircleMarker center={active.coordinates.start} radius={7} pathOptions={{ color: '#3B2E73', weight: 2, fillColor: '#3B2E73', fillOpacity: 0.9 }}>
+              <MapLabelsOverlay
+                start={active.coordinates.start}
+                end={active.coordinates.end}
+                from={active.from}
+                to={active.to}
+                trigger={activeRoute}
+              />
+              <MapPlaneOverlay
+                start={active.coordinates.start}
+                end={active.coordinates.end}
+                trigger={activeRoute}
+              />
+              <CircleMarker center={active.coordinates.start} radius={16} pathOptions={{ color: '#6B5BD0', weight: 1, fillColor: '#6B5BD0', fillOpacity: 0.15 }} />
+              <CircleMarker center={active.coordinates.start} radius={9} pathOptions={{ color: '#3B2E73', weight: 2, fillColor: '#3B2E73', fillOpacity: 0.95 }}>
                 <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Старт</Tooltip>
               </CircleMarker>
-              <CircleMarker center={active.coordinates.end} radius={7} pathOptions={{ color: '#ef4444', weight: 2, fillColor: '#ef4444', fillOpacity: 0.9 }}>
+              <CircleMarker center={active.coordinates.end} radius={16} pathOptions={{ color: '#F472B6', weight: 1, fillColor: '#F472B6', fillOpacity: 0.15 }} />
+              <CircleMarker center={active.coordinates.end} radius={9} pathOptions={{ color: '#F472B6', weight: 2, fillColor: '#F472B6', fillOpacity: 0.95 }}>
                 <Tooltip direction="top" offset={[0, -8]} opacity={0.9}>Финиш</Tooltip>
               </CircleMarker>
             </MapContainer>
 
             {/* Grid Overlay for Tech feel */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(59,46,115,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(59,46,115,0.12)_1px,transparent_1px)] bg-[size:50px_50px] z-10"></div>
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(59,46,115,0.12)_1px,transparent_1px),linear-gradient(90deg,rgba(59,46,115,0.12)_1px,transparent_1px)] bg-[size:50px_50px] z-10 mix-blend-screen"></div>
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,46,115,0.25),transparent_55%),radial-gradient(circle_at_80%_70%,rgba(107,91,208,0.2),transparent_60%)] z-10 mix-blend-screen"></div>
+            <div className="absolute inset-0 z-10 pointer-events-none opacity-25 mix-blend-screen" style={{ backgroundImage: 'repeating-linear-gradient(0deg, rgba(148,163,184,0.08) 0, rgba(148,163,184,0.08) 1px, transparent 1px, transparent 4px)' }}></div>
 
-            
+            {/* HUD */}
+            <div className="absolute top-6 left-6 z-20 text-xs uppercase tracking-[0.35em] text-cyan-200/70">
+              Air Corridor
+              <div className="mt-2 text-[10px] tracking-[0.4em] text-white/60">AAAG NAV</div>
+            </div>
+            <div className="absolute top-6 right-6 z-20 text-[10px] uppercase tracking-[0.35em] text-white/60 text-right">
+              Alt 120m<br />V 180km/h
+            </div>
+            <div className="absolute bottom-6 left-6 z-20 text-[10px] uppercase tracking-[0.35em] text-white/60">
+              Sector A-03
+            </div>
+            <div className="absolute inset-4 z-20 pointer-events-none">
+              <div className="absolute top-0 left-0 w-6 h-6 border-l border-t border-white/30"></div>
+              <div className="absolute top-0 right-0 w-6 h-6 border-r border-t border-white/30"></div>
+              <div className="absolute bottom-0 left-0 w-6 h-6 border-l border-b border-white/30"></div>
+              <div className="absolute bottom-0 right-0 w-6 h-6 border-r border-b border-white/30"></div>
+            </div>
+
             <div className="absolute bottom-8 right-8 text-right z-20">
                 <p className="text-xs text-aaag-blue font-mono mb-1">COORDINATES</p>
                 <p className="font-mono text-lg tracking-widest">
