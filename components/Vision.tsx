@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+﻿import React, { useEffect, useRef } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
-import VisionBg from '../assets/vision.png';
+import VisionBg from '../assets/vision.webp';
 
 // CountUp Component
 const Counter = ({ value, from = 0, prefix = "", suffix = "" }: { value: number, from?: number, prefix?: string, suffix?: string }) => {
@@ -115,3 +115,4 @@ export const Vision: React.FC = () => {
     </section>
   );
 };
+

@@ -1,13 +1,11 @@
-﻿import React, { useMemo, useState } from 'react';
+﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Section } from './Section';
 import { ROUTES_DATA } from '../constants';
 import { motion, animate } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, GeoJSON } from 'react-leaflet';
 import type { Polyline as LeafletPolyline } from 'leaflet';
-import almatyBoundaryRaw from '../assets/data/almaty-boundary.geojson?raw';
-import almatyRoadsRaw from '../assets/data/almaty-roads.geojson?raw';
-import RoutesBg from '../assets/for routes.png';
+import RoutesBg from '../assets/for routes.webp';
 
 const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
   const map = useMap();
@@ -295,11 +293,38 @@ const MapLabelsOverlay: React.FC<{
 };
 
 export const RoutesMap: React.FC = () => {
-  const almatyBoundary = React.useMemo(() => JSON.parse(almatyBoundaryRaw), []);
-  const almatyRoads = React.useMemo(() => JSON.parse(almatyRoadsRaw), []);
+  const [almatyBoundary, setAlmatyBoundary] = useState<any | null>(null);
+  const [almatyRoads, setAlmatyRoads] = useState<any | null>(null);
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
   const [routeTick, setRouteTick] = useState(0);
   const [planeCoords, setPlaneCoords] = useState<[number, number]>(ROUTES_DATA[0].coordinates.start);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadGeoJson = async () => {
+      try {
+        const [boundaryResponse, roadsResponse] = await Promise.all([
+          fetch('/data/almaty-boundary.geojson'),
+          fetch('/data/almaty-roads.geojson'),
+        ]);
+        const [boundaryData, roadsData] = await Promise.all([
+          boundaryResponse.json(),
+          roadsResponse.json(),
+        ]);
+        if (!isMounted) return;
+        setAlmatyBoundary(boundaryData);
+        setAlmatyRoads(roadsData);
+      } catch {
+        // Keep map available even if overlay data is unavailable.
+      }
+    };
+
+    loadGeoJson();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const active = useMemo(
     () => ROUTES_DATA.find((route) => route.id === activeRoute) ?? ROUTES_DATA[0],
@@ -438,16 +463,20 @@ export const RoutesMap: React.FC = () => {
                 url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
               />
               <Pane name="almaty-roads" style={{ zIndex: 610 }}>
-                <GeoJSON
-                  data={almatyRoads as any}
-                  pathOptions={{ color: '#9F93FF', weight: 1.2, opacity: 0.35 }}
-                />
+                {almatyRoads && (
+                  <GeoJSON
+                    data={almatyRoads}
+                    pathOptions={{ color: '#9F93FF', weight: 1.2, opacity: 0.35 }}
+                  />
+                )}
               </Pane>
               <Pane name="almaty-boundary" style={{ zIndex: 620 }}>
-                <GeoJSON
-                  data={almatyBoundary as any}
-                  pathOptions={{ color: '#C4B5FD', weight: 2.2, opacity: 0.8, fillColor: '#6B5BD0', fillOpacity: 0.06 }}
-                />
+                {almatyBoundary && (
+                  <GeoJSON
+                    data={almatyBoundary}
+                    pathOptions={{ color: '#C4B5FD', weight: 2.2, opacity: 0.8, fillColor: '#6B5BD0', fillOpacity: 0.06 }}
+                  />
+                )}
               </Pane>
               <Pane name="route-base" style={{ zIndex: 640 }}>
                 <Polyline
@@ -521,3 +550,5 @@ export const RoutesMap: React.FC = () => {
     </Section>
   );
 };
+
+

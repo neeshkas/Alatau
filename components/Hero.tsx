@@ -1,6 +1,6 @@
-import React from 'react';
+﻿import React from 'react';
 import { motion } from 'framer-motion';
-import heroPoster from '../assets/photo_for_block2.png';
+import heroPoster from '../assets/photo_for_block2.webp';
 
 export const Hero: React.FC = () => {
   return (
@@ -74,3 +74,4 @@ export const Hero: React.FC = () => {
     </div>
   );
 };
+

@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Section } from './Section';
 import { motion, useReducedMotion } from 'framer-motion';
-import Block4Photo from '../assets/assets/photo_for_block4.png';
+import Block4Photo from '../assets/assets/photo_for_block4.webp';
 
 const NOISE_LEVELS = [
   { label: 'Грузовик', value: 80, tone: '#F97316' },
@@ -112,3 +112,4 @@ export const Ecology: React.FC = () => {
     </Section>
   );
 };
+

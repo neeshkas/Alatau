@@ -1,9 +1,10 @@
-import React, { useRef, useState } from 'react';
+﻿import React, { useRef, useState } from 'react';
 import { Section } from './Section';
 import { motion, useMotionValueEvent, useReducedMotion, useScroll } from 'framer-motion';
 import { ShieldCheck, Anchor, BatteryCharging, Activity } from 'lucide-react';
-import SafetyBg from '../assets/assets/photo_for_block3.png';
-import SafetyCenter from '../assets/evtol for security block.png';
+import { Link } from 'react-router-dom';
+import SafetyBg from '../assets/assets/photo_for_block3.webp';
+import SafetyCenter from '../assets/evtol for security block.webp';
 
 const SAFETY_POINTS = [
   {
@@ -77,12 +78,12 @@ export const Safety: React.FC = () => {
             Every AAAG aircraft is designed around failure<br />
             scenarios, not ideal conditions.
           </p>
-          <a
-            href="/bezop"
+          <Link
+            to="/bezop"
             className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full bg-aaag-blue text-white text-xs font-semibold uppercase tracking-[0.35em] shadow-[0_12px_30px_rgba(59,46,115,0.25)] hover:bg-[#2f2460] transition-colors"
           >
             Больше информации
-          </a>
+          </Link>
         </div>
 
           <div className="w-full h-full lg:scale-[1.05] lg:origin-center lg:translate-x-6">
@@ -152,3 +153,4 @@ export const Safety: React.FC = () => {
     </Section>
   );
 };
+

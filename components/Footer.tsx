@@ -1,8 +1,9 @@
-import React from 'react';
+﻿import React from 'react';
 import { PARTNERS_DATA } from '../constants';
 import { MapPin, Mail, Linkedin, Twitter, Instagram } from 'lucide-react';
 import AAAGLogo from '../assets/assets/AAAG Logo.svg';
-import FooterBg from '../assets/for footer.png';
+import FooterBg from '../assets/for footer.webp';
+import { Link } from 'react-router-dom';
 
 export const Footer: React.FC = () => {
   return (
@@ -48,9 +49,9 @@ export const Footer: React.FC = () => {
                   Мы создаем будущее городской мобильности сегодня. Инновации, экология и безопасность.
               </p>
               <div className="flex gap-4">
-                  <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-aaag-dark transition-all"><Linkedin size={18}/></a>
-                  <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-aaag-dark transition-all"><Twitter size={18}/></a>
-                  <a href="#" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-aaag-dark transition-all"><Instagram size={18}/></a>
+                  <a href="https://www.linkedin.com" target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-aaag-dark transition-all"><Linkedin size={18}/></a>
+                  <a href="https://x.com" target="_blank" rel="noreferrer" aria-label="X (Twitter)" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-aaag-dark transition-all"><Twitter size={18}/></a>
+                  <a href="https://www.instagram.com" target="_blank" rel="noreferrer" aria-label="Instagram" className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:bg-white hover:text-aaag-dark transition-all"><Instagram size={18}/></a>
               </div>
           </div>
 
@@ -71,10 +72,10 @@ export const Footer: React.FC = () => {
           <div>
               <h4 className="font-bold text-lg mb-6">Меню</h4>
               <ul className="space-y-2 text-gray-400">
-                  <li><a href="#technology" className="hover:text-cyan-400 transition-colors">О технологии</a></li>
-                  <li><a href="#safety" className="hover:text-cyan-400 transition-colors">Безопасность</a></li>
-                  <li><a href="#roadmap" className="hover:text-cyan-400 transition-colors">Roadmap</a></li>
-                  <li><a href="#routes" className="hover:text-cyan-400 transition-colors">Маршруты</a></li>
+                  <li><a href="/#technology" className="hover:text-cyan-400 transition-colors">О технологии</a></li>
+                  <li><a href="/#safety" className="hover:text-cyan-400 transition-colors">Безопасность</a></li>
+                  <li><a href="/#roadmap" className="hover:text-cyan-400 transition-colors">Roadmap</a></li>
+                  <li><a href="/#routes" className="hover:text-cyan-400 transition-colors">Маршруты</a></li>
               </ul>
           </div>
       </div>
@@ -82,8 +83,8 @@ export const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600 relative z-10">
           <p>© Alatau Advance Air Group 2026. Все права защищены.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-gray-400">Privacy Policy</a>
-              <a href="#" className="hover:text-gray-400">Terms of Service</a>
+              <Link to="/privacy" className="hover:text-gray-400">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-gray-400">Terms of Service</Link>
           </div>
       </div>
 
@@ -102,3 +103,4 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+

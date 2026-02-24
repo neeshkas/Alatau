@@ -1,12 +1,12 @@
-import React from 'react';
+﻿import React from 'react';
 import { Navigation } from '../components/Navigation';
 import { Section } from '../components/Section';
 import { Footer } from '../components/Footer';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Activity, BatteryCharging, Anchor } from 'lucide-react';
-import SafetyBg from '../assets/assets/photo_for_block3.png';
-import SafetyCenter from '../assets/for security block 1.png';
-import SafetyDiagram from '../assets/evtol for security block.png';
+import SafetyBg from '../assets/assets/photo_for_block3.webp';
+import SafetyCenter from '../assets/for security block 1.webp';
+import SafetyDiagram from '../assets/evtol for security block.webp';
 
 const SAFETY_CARDS = [
   {
@@ -236,3 +236,4 @@ export const SafetyPage: React.FC = () => {
     </div>
   );
 };
+

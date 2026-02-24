@@ -1,8 +1,8 @@
-import React from 'react';
+﻿import React from 'react';
 import { Section } from './Section';
 import { ROADMAP_DATA } from '../constants';
 import { motion } from 'framer-motion';
-import RoadmapBg from '../assets/routes.png';
+import RoadmapBg from '../assets/routes.webp';
 
 export const Roadmap: React.FC = () => {
   return (
@@ -76,3 +76,4 @@ export const Roadmap: React.FC = () => {
     </Section>
   );
 };
+
