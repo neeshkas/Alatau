@@ -5,6 +5,7 @@ import heroPoster from '../assets/photo_for_block2.webp';
 export const Hero: React.FC = () => {
   return (
     <div
+      id="hero"
       className="relative h-screen w-full overflow-hidden snap-start snap-always"
       style={{ contentVisibility: 'auto', containIntrinsicSize: '1000px 1000px' }}
     >

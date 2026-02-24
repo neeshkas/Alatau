@@ -86,7 +86,7 @@ export const SafetyPage: React.FC = () => {
                   Every AAAG aircraft is designed around failure scenarios, not ideal conditions.
                 </p>
                 <Link
-                  to="/main"
+                  to="/main#safety"
                   className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full border border-aaag-blue text-aaag-blue text-xs font-semibold uppercase tracking-[0.35em] hover:bg-aaag-blue hover:text-white transition-colors"
                 >
                   Назад на главную
@@ -142,14 +142,14 @@ export const SafetyPage: React.FC = () => {
         <Section id="safety-architecture" className="bg-white text-aaag-dark" dark={false}>
           <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 md:pt-28 pb-14">
             <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
-              <div className="order-2 lg:col-start-2 lg:row-start-2 lg:translate-x-20 lg:-translate-y-24">
+              <div className="order-2 lg:col-start-2 lg:row-start-2 lg:translate-x-28 lg:-translate-y-24">
                 <h2 className="text-3xl md:text-4xl font-bold">Safety Architecture Diagram</h2>
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-xl mt-4">
                   Full integrated architecture map with fail-safe logic, power segmentation, and emergency routing.
                 </p>
               </div>
 
-              <div className="order-1 w-full h-full lg:col-start-2 lg:row-start-1">
+              <div className="order-1 w-full h-full lg:col-start-2 lg:row-start-1 lg:translate-x-24">
                 <img
                   src={SafetyDiagram}
                   alt="Safety diagram"
