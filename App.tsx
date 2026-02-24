@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Technology } from './components/Technology';
@@ -39,8 +39,10 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Suspense fallback={<PageFallback />}>
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/bezop" element={<SafetyPage />} />
+          <Route path="/" element={<Navigate to="/main" replace />} />
+          <Route path="/main" element={<Landing />} />
+          <Route path="/bezop" element={<Navigate to="/security" replace />} />
+          <Route path="/security" element={<SafetyPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
           <Route path="/terms" element={<TermsPage />} />
         </Routes>

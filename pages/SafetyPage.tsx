@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import { Link } from 'react-router-dom';
 import { Navigation } from '../components/Navigation';
 import { Section } from '../components/Section';
 import { Footer } from '../components/Footer';
@@ -103,6 +104,12 @@ export const SafetyPage: React.FC = () => {
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-xl">
                   Every AAAG aircraft is designed around failure scenarios, not ideal conditions.
                 </p>
+                <Link
+                  to="/main"
+                  className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full border border-aaag-blue text-aaag-blue text-xs font-semibold uppercase tracking-[0.35em] hover:bg-aaag-blue hover:text-white transition-colors"
+                >
+                  Назад на главную
+                </Link>
               </div>
 
               <div className="w-full h-full lg:scale-[1.05] lg:origin-center lg:translate-x-6">
@@ -152,12 +159,24 @@ export const SafetyPage: React.FC = () => {
 
         {/* Section 2 */}
         <Section id="safety-architecture" className="bg-white text-aaag-dark" dark={false}>
-          <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 pb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-10">Safety Architecture Diagram</h2>
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-10 items-center">
-              <div className="space-y-6">
-                {SAFETY_NODES.slice(0, 2).map((node) => (
-                  <div key={node.title} className="rounded-2xl border border-[#E8E3F4] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.06)] p-6">
+          <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 md:pt-28 pb-10 md:pb-12">
+            <div className="mb-6 md:mb-8">
+              <h2 className="text-3xl md:text-4xl font-bold">Safety Architecture Diagram</h2>
+              <p className="text-sm md:text-base text-gray-500 mt-2">Core layers designed for graceful failure handling.</p>
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-[0.92fr_1.16fr_0.92fr] gap-5 md:gap-6 items-stretch">
+              <div className="grid gap-5 md:gap-6">
+                {SAFETY_NODES.slice(0, 2).map((node, idx) => (
+                  <motion.div
+                    key={node.title}
+                    initial={{ opacity: 0, x: -24, y: 10 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0 }}
+                    transition={{ duration: 0.55, delay: idx * 0.1, ease: 'easeOut' }}
+                    viewport={{ once: true, amount: 0.35 }}
+                    whileHover={{ y: -5, scale: 1.015 }}
+                    className="rounded-2xl border border-[#E8E3F4] bg-white/95 shadow-[0_14px_28px_rgba(15,23,42,0.08)] p-5 md:p-6 transition-shadow hover:shadow-[0_18px_36px_rgba(59,46,115,0.14)]"
+                  >
                     <h3 className="text-lg font-semibold text-aaag-blue mb-3">{node.title}</h3>
                     <ul className="space-y-2 text-sm text-gray-600">
                       {node.points.map((pt) => (
@@ -167,23 +186,36 @@ export const SafetyPage: React.FC = () => {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
-              <div className="relative rounded-3xl border border-[#E8E3F4] bg-[#F7F5FB] p-8 shadow-[0_20px_40px_rgba(15,23,42,0.08)]">
-                <img
+              <div className="relative flex items-center justify-center min-h-[290px] md:min-h-[380px] xl:min-h-[460px]">
+                <div className="absolute inset-4 rounded-[36px] bg-[radial-gradient(circle_at_50%_40%,rgba(103,85,186,0.18),transparent_68%)]"></div>
+                <motion.img
                   src={SafetyDiagram}
                   alt="Safety diagram"
-                  className="w-full h-full object-contain opacity-90"
+                  className="relative z-10 w-full h-full object-contain opacity-95"
                   decoding="async"
                   loading="lazy"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.7, ease: 'easeOut' }}
+                  viewport={{ once: true, amount: 0.35 }}
                 />
               </div>
 
-              <div className="space-y-6 lg:col-start-2">
-                {SAFETY_NODES.slice(2).map((node) => (
-                  <div key={node.title} className="rounded-2xl border border-[#E8E3F4] bg-white shadow-[0_12px_26px_rgba(15,23,42,0.06)] p-6">
+              <div className="grid gap-5 md:gap-6">
+                {SAFETY_NODES.slice(2).map((node, idx) => (
+                  <motion.div
+                    key={node.title}
+                    initial={{ opacity: 0, x: 24, y: 10 }}
+                    whileInView={{ opacity: 1, x: 0, y: 0 }}
+                    transition={{ duration: 0.55, delay: idx * 0.1, ease: 'easeOut' }}
+                    viewport={{ once: true, amount: 0.35 }}
+                    whileHover={{ y: -5, scale: 1.015 }}
+                    className="rounded-2xl border border-[#E8E3F4] bg-white/95 shadow-[0_14px_28px_rgba(15,23,42,0.08)] p-5 md:p-6 transition-shadow hover:shadow-[0_18px_36px_rgba(59,46,115,0.14)]"
+                  >
                     <h3 className="text-lg font-semibold text-aaag-blue mb-3">{node.title}</h3>
                     <ul className="space-y-2 text-sm text-gray-600">
                       {node.points.map((pt) => (
@@ -193,7 +225,7 @@ export const SafetyPage: React.FC = () => {
                         </li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -236,4 +268,8 @@ export const SafetyPage: React.FC = () => {
     </div>
   );
 };
+
+
+
+
 

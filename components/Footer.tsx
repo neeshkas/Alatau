@@ -72,10 +72,10 @@ export const Footer: React.FC = () => {
           <div>
               <h4 className="font-bold text-lg mb-6">Меню</h4>
               <ul className="space-y-2 text-gray-400">
-                  <li><a href="/#technology" className="hover:text-cyan-400 transition-colors">О технологии</a></li>
-                  <li><a href="/#safety" className="hover:text-cyan-400 transition-colors">Безопасность</a></li>
-                  <li><a href="/#roadmap" className="hover:text-cyan-400 transition-colors">Roadmap</a></li>
-                  <li><a href="/#routes" className="hover:text-cyan-400 transition-colors">Маршруты</a></li>
+                  <li><a href="/main#technology" className="hover:text-cyan-400 transition-colors">О технологии</a></li>
+                  <li><a href="/main#safety" className="hover:text-cyan-400 transition-colors">Безопасность</a></li>
+                  <li><a href="/main#roadmap" className="hover:text-cyan-400 transition-colors">Roadmap</a></li>
+                  <li><a href="/main#routes" className="hover:text-cyan-400 transition-colors">Маршруты</a></li>
               </ul>
           </div>
       </div>
@@ -103,4 +103,5 @@ export const Footer: React.FC = () => {
     </footer>
   );
 };
+
 

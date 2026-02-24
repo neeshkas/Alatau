@@ -1,21 +1,43 @@
 ﻿import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import AAAGLogo from '../assets/assets/AAAG Logo.svg';
 
 export const Navigation: React.FC = () => {
+  const location = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSafetyActive, setIsSafetyActive] = useState(false);
   const [isEcologyActive, setIsEcologyActive] = useState(false);
   const [isFooterActive, setIsFooterActive] = useState(false);
 
-  const navItems = [
-    { label: 'Технология', href: '/#technology' },
-    { label: 'Безопасность', href: '/#safety' },
-    { label: 'Экология', href: '/#ecology' },
-    { label: 'Vision', href: '/#vision' },
-    { label: 'Roadmap', href: '/#roadmap' },
-    { label: 'Маршруты', href: '/#routes' },
-  ];
+  const isMainRoute = location.pathname === '/main';
+  const isBezopRoute = location.pathname === '/security';
+
+  const navItems = isBezopRoute
+    ? [
+        { label: 'Верх', href: '#safety-top' },
+        { label: 'Архитектура', href: '#safety-architecture' },
+        { label: 'Сценарии', href: '#safety-scenarios' },
+      ]
+    : isMainRoute
+      ? [
+          { label: 'Технология', href: '#technology' },
+          { label: 'Безопасность', href: '#safety' },
+          { label: 'Экология', href: '#ecology' },
+          { label: 'Vision', href: '#vision' },
+          { label: 'Roadmap', href: '#roadmap' },
+          { label: 'Маршруты', href: '#routes' },
+        ]
+      : [
+          { label: 'Технология', href: '/main#technology' },
+          { label: 'Безопасность', href: '/main#safety' },
+          { label: 'Экология', href: '/main#ecology' },
+          { label: 'Vision', href: '/main#vision' },
+          { label: 'Roadmap', href: '/main#roadmap' },
+          { label: 'Маршруты', href: '/main#routes' },
+        ];
+
+  const isLightVariant = isFooterActive && !isBezopRoute;
 
   const scrollToTop = () => {
     const scrollRoot = document.querySelector('main');
@@ -24,6 +46,16 @@ export const Navigation: React.FC = () => {
       return;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleHashClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith('#')) return;
+    event.preventDefault();
+    const target = document.querySelector(href);
+    if (target instanceof HTMLElement) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    setIsMobileOpen(false);
   };
 
   useEffect(() => {
@@ -75,11 +107,13 @@ export const Navigation: React.FC = () => {
   }, []);
 
   const navClasses = `fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out px-6 ${
-    isFooterActive
-      ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-aaag-blue/15 py-3 text-aaag-blue'
-      : isSafetyActive || isEcologyActive
-        ? 'bg-aaag-blue/90 backdrop-blur-md shadow-lg py-3'
-        : 'bg-transparent py-6'
+    isBezopRoute
+      ? 'bg-aaag-blue/90 backdrop-blur-md shadow-lg py-3'
+      : isFooterActive
+        ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-aaag-blue/15 py-3 text-aaag-blue'
+        : isSafetyActive || isEcologyActive
+          ? 'bg-aaag-blue/90 backdrop-blur-md shadow-lg py-3'
+          : 'bg-transparent py-6'
   }`;
 
   return (
@@ -94,21 +128,22 @@ export const Navigation: React.FC = () => {
           <img src={AAAGLogo} alt="AAAG Logo" width={646} height={317} className="h-16 w-auto" />
         </button>
 
-        <div className={`hidden md:flex items-center gap-8 ${isFooterActive ? 'text-aaag-blue' : 'text-white'}`}>
+        <div className={`hidden md:flex items-center gap-8 ${isLightVariant ? 'text-aaag-blue' : 'text-white'}`}>
           {navItems.map((item) => (
             <a
               key={item.href}
               href={item.href}
-              className={`${isFooterActive ? 'text-aaag-blue hover:text-aaag-dark' : 'text-white hover:text-cyan-400'} text-sm font-medium uppercase tracking-wider transition-colors relative group`}
+              onClick={(event) => handleHashClick(event, item.href)}
+              className={`${isLightVariant ? 'text-aaag-blue hover:text-aaag-dark' : 'text-white hover:text-cyan-400'} text-sm font-medium uppercase tracking-wider transition-colors relative group`}
             >
               {item.label}
-              <span className={`absolute -bottom-1 left-0 w-0 h-[1px] ${isFooterActive ? 'bg-aaag-blue' : 'bg-cyan-400'} transition-all duration-300 group-hover:w-full`}></span>
+              <span className={`absolute -bottom-1 left-0 w-0 h-[1px] ${isLightVariant ? 'bg-aaag-blue' : 'bg-cyan-400'} transition-all duration-300 group-hover:w-full`}></span>
             </a>
           ))}
           <a
             href="mailto:info@aaag.kz"
             className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
-              isFooterActive
+              isLightVariant
                 ? 'border border-aaag-blue text-aaag-blue hover:bg-aaag-blue hover:text-white'
                 : 'border border-white text-white hover:bg-white hover:text-cyan-400'
             }`}
@@ -118,7 +153,7 @@ export const Navigation: React.FC = () => {
         </div>
 
         <button
-          className={`md:hidden ${isFooterActive ? 'text-aaag-blue' : 'text-white'}`}
+          className={`md:hidden ${isLightVariant ? 'text-aaag-blue' : 'text-white'}`}
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           aria-label={isMobileOpen ? 'Закрыть меню' : 'Открыть меню'}
         >
@@ -131,7 +166,7 @@ export const Navigation: React.FC = () => {
           <a
             key={item.href}
             href={item.href}
-            onClick={() => setIsMobileOpen(false)}
+            onClick={(event) => handleHashClick(event, item.href)}
             className="text-2xl font-light text-white uppercase tracking-widest hover:text-cyan-400 transition-colors"
           >
             {item.label}
