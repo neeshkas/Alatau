@@ -73,11 +73,17 @@ export const Safety: React.FC = () => {
               Safety is not a feature.
               <span className="block text-aaag-blue">It is a system.</span>
             </h2>
-            <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-xl">
-              Every AAAG aircraft is designed around failure<br />
-              scenarios, not ideal conditions.
-            </p>
-          </div>
+          <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-xl">
+            Every AAAG aircraft is designed around failure<br />
+            scenarios, not ideal conditions.
+          </p>
+          <a
+            href="/bezop"
+            className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full bg-aaag-blue text-white text-xs font-semibold uppercase tracking-[0.35em] shadow-[0_12px_30px_rgba(59,46,115,0.25)] hover:bg-[#2f2460] transition-colors"
+          >
+            Больше информации
+          </a>
+        </div>
 
           <div className="w-full h-full lg:scale-[1.05] lg:origin-center lg:translate-x-6">
             <img
