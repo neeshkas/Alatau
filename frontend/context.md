@@ -1,75 +1,82 @@
-﻿# Project Context (Session Log)
+﻿# Контекст проекта (Журнал сессии)
 
-## Project Overview
-- Project: `aaag---alatau-advance-air-group`
-- Stack: React + TypeScript + Vite + Tailwind (via Vite plugin), framer-motion, react-router-dom, react-leaflet.
-- Primary language mix: RU/EN content.
+## Обзор проекта
+- Проект: `aaag---alatau-advance-air-group`
+- Стек: React + TypeScript + Vite + Tailwind (через плагин Vite), framer-motion, react-router-dom, react-leaflet.
+- Основной языковой микс: контент RU/EN.
 
-## Agreed Terms
-- `безоп`: conditional short name for the safety landing.
-- Current route naming:
-  - Main landing: `/main`
-  - Safety landing (`безоп`): `/security`
-- Legacy route support currently present:
-  - `/` redirects to `/main`
-  - `/bezop` redirects to `/security`
+## Согласованные термины
+- `безоп`: условное короткое название лендинга по безопасности (`/security`).
+- `прикол`: изображение на переднем плане.
+- `фоно`: изображение/графика на заднем плане.
+- Уточнение по первому блоку `безоп`: `прикол` — это eVTOL, `фоно` — фоновая подложка/контурные линии за ним.
+- Уточнение по второму блоку `безоп` (`#safety-architecture`): `прикол` — это текст и картинка вместе (единый визуальный фокус блока).
+- Во втором блоке `безоп` текст и картинка объединены в единый логический блок `прикол` и должны перемещаться строго вместе.
+- Текущее именование маршрутов:
+  - Основной лендинг: `/main`
+  - Лендинг по безопасности (`безоп`): `/security`
+- Поддержка legacy-маршрутов, присутствующая сейчас:
+  - `/` перенаправляет на `/main`
+  - `/bezop` перенаправляет на `/security`
 
-## High-Level Work Done In This Session
+## Высокоуровневые работы, выполненные в этой сессии
 
-### 1) Initial Audit + Critical Report
-- Performed technical audit of site structure, build health, accessibility, routing, and performance.
-- Created `critical.md` with findings and priorities.
+### 1) Первичный аудит + критический отчет
+- Проведен технический аудит структуры сайта, состояния сборки, доступности, маршрутизации и производительности.
+- Создан `critical.md` с выводами и приоритетами.
 
-### 2) Infrastructure / Build / Styling
-- Migrated Tailwind from CDN in `index.html` to local build pipeline via `@tailwindcss/vite`.
-- Added `index.css` and imported it in `index.tsx`.
-- Removed `importmap` and obsolete direct `/index.css` reference from `index.html`.
-- Fixed viewport rule (removed `user-scalable=0`).
+### 2) Инфраструктура / сборка / стилизация
+- Tailwind мигрирован с CDN в `index.html` в локальный пайплайн сборки через `@tailwindcss/vite`.
+- Добавлен `index.css` и импортирован в `index.tsx`.
+- Удалены `importmap` и устаревшая прямая ссылка на `/index.css` из `index.html`.
+- Исправлено правило viewport (удален `user-scalable=0`).
 
-### 3) Routing and Navigation Evolution
-- Introduced additional pages for legal links:
+### 3) Эволюция маршрутизации и навигации
+- Добавлены дополнительные страницы для юридических ссылок:
   - `pages/PrivacyPage.tsx`
   - `pages/TermsPage.tsx`
-- Routing updated over time; final convention now `/main` and `/security`.
-- Added redirect fallback behavior for SPA hosting via `public/404.html` and redirect restoration logic in `index.tsx`.
-- Navigation behavior on `/security` set to local section anchors (`#safety-top`, `#safety-architecture`, `#safety-scenarios`).
+- Маршрутизация обновлялась со временем; финальная конвенция теперь `/main` и `/security`.
+- Добавлено fallback-поведение редиректа для SPA-хостинга через `public/404.html` и логика восстановления редиректа в `index.tsx`.
+- Поведение навигации на `/security` настроено на локальные якоря секций (`#safety-top`, `#safety-architecture`, `#safety-scenarios`).
 
-### 4) Performance Work
-- Converted major heavy `.png` assets to `.webp` and updated imports across components/pages.
-- Added lazy route-level chunking (`React.lazy` + `Suspense`) for heavier pages/components.
-- Reduced JS payload by moving map GeoJSON from JS bundle (`?raw`) to runtime fetch from `public/data`.
-- Added manual chunk splitting in `vite.config.ts` for large vendors.
+### 4) Работы по производительности
+- Основные тяжелые ассеты `.png` конвертированы в `.webp`, импорты обновлены во всех компонентах/страницах.
+- Добавлено ленивое разбиение на чанки на уровне маршрутов (`React.lazy` + `Suspense`) для более тяжелых страниц/компонентов.
+- Снижен размер JS-бандла за счет переноса GeoJSON карты из JS-бандла (`?raw`) в runtime-fetch из `public/data`.
+- Добавлено ручное разделение чанков в `vite.config.ts` для крупных вендоров.
 
-### 5) Accessibility / UX
-- Replaced/removed placeholder `href="#"` links.
-- Improved button/link semantics and aria labels in navigation.
-- Fixed scroll-to-top logic for layouts with internal `main` scroll container.
+### 5) Доступность / UX
+- Заменены/удалены заглушечные ссылки `href="#"`.
+- Улучшены семантика кнопок/ссылок и aria-метки в навигации.
+- Исправлена логика прокрутки к началу для макетов с внутренним scroll-контейнером `main`.
 
-### 6) Safety Blocks Iterations (Main + Security)
-- Main Safety section was aligned multiple times with Security first block style.
-- Added then restyled CTA (`Узнать больше`) with hover animation variants:
-  - tested `offset`, then switched to `slide`.
-  - fixed partial fill bug by implementing slide through pseudo-element overlay.
-- Added `Назад на главную` button on safety page and iterated its target behavior.
+### 6) Итерации блоков безопасности (Main + Security)
+- Секция Safety на главной несколько раз выравнивалась под стиль первого блока Security.
+- Добавлен, затем перерисован CTA (`Узнать больше`) с вариантами hover-анимации:
+  - протестирован `offset`, затем выполнен переход на `slide`.
+  - исправлен баг частичного заполнения путем реализации slide через overlay на псевдоэлементе.
+- Добавлена кнопка `Назад на главную` на странице безопасности и проведены итерации ее целевого поведения.
 
-### 7) Security Page (Block 2 / Block 3) Iterations
-- Multiple layout experiments executed per user instructions:
-  - block 2 redesign with cards and animation,
-  - rollback to simpler form,
-  - move text/image right/up repeatedly,
-  - temporary transfer of block 3 content into block 2,
-  - rollback to separated block 2 and block 3 state,
-  - further micro-positioning adjustments.
-- Current UI state reflects latest user-directed positional adjustments (right-shifted image/text in block 2).
+### 7) Итерации страницы Security (Блок 2 / Блок 3)
+- Выполнены множественные эксперименты с макетом по инструкциям пользователя:
+  - редизайн блока 2 с карточками и анимацией,
+  - откат к более простой форме,
+  - многократные сдвиги текста/изображения вправо/вверх,
+  - временный перенос контента блока 3 в блок 2,
+  - откат к раздельному состоянию блока 2 и блока 3,
+  - дальнейшие микро-корректировки позиционирования.
+- Текущее состояние UI отражает последние пользовательские правки позиций (сдвинутые вправо изображение/текст в блоке 2).
+- Последнее уточнение: во втором блоке `прикол` трактуется как связка «текст + картинка», и сдвиги применяются к обоим элементам.
+- Техническая фиксация: во втором блоке `прикол` реализован общим контейнером (общий translate), чтобы исключить рассинхрон текст/картинка.
 
-## Important Session Events / Notes
-- At one point, `components/Safety.tsx` was accidentally truncated by a shell replacement command and immediately reconstructed.
-- User explicitly requested strict incremental changes in later phase ("only do exactly what I ask").
-- Several requests were intentionally iterative and visual (position tuning by repeated "higher/right").
+## Важные события / заметки сессии
+- В один из моментов `components/Safety.tsx` был случайно обрезан командой замены в shell и сразу восстановлен.
+- Пользователь явно запросил строгие инкрементальные изменения на позднем этапе ("делай только то, что я прошу").
+- Несколько запросов были намеренно итеративными и визуальными (настройка позиции повторяющимися командами "выше/правее").
 
-## Files Touched During Session (Key)
+## Файлы, затронутые в ходе сессии (ключевые)
 - `critical.md`
-- `context.md` (this file)
+- `context.md` (этот файл)
 - `index.html`
 - `index.tsx`
 - `index.css`
@@ -87,11 +94,15 @@
 - `public/data/almaty-boundary.geojson`
 - `public/data/almaty-roads.geojson`
 
-## Current Working Conventions
-- "безоп" means safety landing (`/security`).
-- Main landing is `/main`.
-- User prefers precise, stepwise visual changes with no extra unsolicited edits.
-- For layout tuning, user gives direct relative commands ("higher", "right", etc.) and expects immediate micro-adjustment.
+## Текущие рабочие конвенции
+- "безоп" означает лендинг по безопасности (`/security`).
+- "прикол" — передний план; "фоно" — задний план.
+- В первом блоке `безоп`: `прикол` = eVTOL, `фоно` = подложка/контурный фон.
+- Во втором блоке `безоп`: `прикол` = текст + картинка вместе.
+- Во втором блоке `безоп` перемещение выполняется только для общего контейнера `прикол` (не раздельно по элементам).
+- Основной лендинг: `/main`.
+- Пользователь предпочитает точные, пошаговые визуальные изменения без дополнительных непрошенных правок.
+- Для тюнинга макета пользователь дает прямые относительные команды ("выше", "правее" и т.д.) и ожидает немедленной микро-корректировки.
 
-## Pending User Intent (Most Recent)
-- Continue precise positioning and design alignment for block 2/3 on `/security` as directed in follow-up steps.
+## Ожидаемое намерение пользователя (самое недавнее)
+- Продолжить точное позиционирование и выравнивание дизайна для блока 2/3 на `/security` согласно указаниям в следующих шагах.
