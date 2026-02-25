@@ -11,3 +11,14 @@ services:
       - ./frontend:/app
       - /app/node_modules
     restart: unless-stopped
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    depends_on:
+      - app
+    command: http app:3000 --pooling-enabled --log stdout
+    environment:
+      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+    ports:
+      - "4040:4040"
+    restart: unless-stopped
