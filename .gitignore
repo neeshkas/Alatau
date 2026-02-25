@@ -1,4 +1,4 @@
-# Logs
+﻿# Logs
 logs
 *.log
 npm-debug.log*
@@ -25,4 +25,4 @@ dist-ssr
 
 # Local environment files
 .env
-frontend/.env.local
+
