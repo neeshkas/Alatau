@@ -2,9 +2,9 @@
 import { Section } from './Section';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Activity, BatteryCharging, Anchor } from 'lucide-react';
-import SafetyBg from '../assets/assets/photo_for_block3.webp';
-import SafetyCenter from '../assets/for security block 1.webp';
-import SafetyDiagram from '../assets/evtol for security block.webp';
+import SafetyBg from '../assets/images/photo-for-block3.webp';
+import SafetyCenter from '../assets/images/for-security-block-1.webp';
+import SafetyDiagram from '../assets/images/evtol-for-security-block.webp';
 
 const SAFETY_CARDS = [
   {
@@ -288,4 +288,5 @@ export const SafetySections: React.FC<{ mode?: SafetySectionsMode }> = ({ mode =
     </>
   );
 };
+
 

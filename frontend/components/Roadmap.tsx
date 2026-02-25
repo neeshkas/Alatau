@@ -2,7 +2,7 @@
 import { Section } from './Section';
 import { ROADMAP_DATA } from '../constants';
 import { motion } from 'framer-motion';
-import RoadmapBg from '../assets/routes.webp';
+import RoadmapBg from '../assets/images/routes.webp';
 
 export const Roadmap: React.FC = () => {
   return (
@@ -76,4 +76,5 @@ export const Roadmap: React.FC = () => {
     </Section>
   );
 };
+
 

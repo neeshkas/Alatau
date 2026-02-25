@@ -5,7 +5,7 @@ import { motion, animate } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, GeoJSON } from 'react-leaflet';
 import type { Polyline as LeafletPolyline } from 'leaflet';
-import RoutesBg from '../assets/for routes.webp';
+import RoutesBg from '../assets/images/for-routes.webp';
 
 const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
   const map = useMap();
@@ -550,5 +550,6 @@ export const RoutesMap: React.FC = () => {
     </Section>
   );
 };
+
 
 

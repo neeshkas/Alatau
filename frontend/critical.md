@@ -9,9 +9,9 @@
   Билд это подтверждает: `"/index.css doesn't exist at build time"`.
 
 2. Очень тяжёлые ассеты (сильно бьют по LCP и мобильной загрузке):
-- `assets/assets/моделька.png` ~11.43 MB
-- `assets/assets/photo_for_block3.png` ~8.37 MB
-- `assets/photo_for_block2.png` ~8.02 MB
+- `assets/моделька.png` ~11.43 MB
+- `assets/images/photo-for-block3.webp` ~8.37 MB
+- `assets/images/photo-for-block2.webp` ~8.02 MB
 - JS bundle ~1.53 MB (`dist/assets/index-*.js`) и warning о больших чанках.
 
 3. Неправильный скролл к началу страницы по клику на логотип:
@@ -37,3 +37,4 @@
 - `npx tsc --noEmit`: ошибок типов нет.
 
 Если нужно, следующим шагом могу сразу внести фикс-пакет: убрать CDN/importmap, подключить Tailwind нормально через Vite, поправить навигацию/скролл и сделать базовую оптимизацию изображений.
+

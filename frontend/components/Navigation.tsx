@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import AAAGLogo from '../assets/assets/AAAG Logo.svg';
+import AAAGLogo from '../assets/logo/aaag-logo.svg';
 
 export const Navigation: React.FC = () => {
   const location = useLocation();

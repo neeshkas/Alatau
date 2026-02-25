@@ -3,8 +3,8 @@ import { Section } from './Section';
 import { motion } from 'framer-motion';
 import { ShieldCheck, Activity, Anchor } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import SafetyBg from '../assets/assets/photo_for_block3.webp';
-import SafetyCenter from '../assets/for security block 1.webp';
+import SafetyBg from '../assets/images/photo-for-block3.webp';
+import SafetyCenter from '../assets/images/for-security-block-1.webp';
 
 const SAFETY_CARDS = [
   {
@@ -109,3 +109,4 @@ export const Safety: React.FC = () => {
     </Section>
   );
 };
+

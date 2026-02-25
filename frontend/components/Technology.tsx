@@ -2,8 +2,8 @@
 import { Section } from './Section';
 import { Cpu, Wind, Zap } from 'lucide-react';
 import { useReducedMotion } from 'framer-motion';
-import Block2Photo from '../assets/photo_for_block2.webp';
-import EvtolModel from '../assets/assets/evtol-model.webp';
+import Block2Photo from '../assets/images/photo-for-block2.webp';
+import EvtolModel from '../assets/images/evtol-model.webp';
 
 export const Technology: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -162,4 +162,5 @@ export const Technology: React.FC = () => {
     </Section>
   );
 };
+
 

@@ -1,8 +1,8 @@
 ﻿import React from 'react';
 import { PARTNERS_DATA } from '../constants';
 import { MapPin, Mail, Linkedin, Twitter, Instagram } from 'lucide-react';
-import AAAGLogo from '../assets/assets/AAAG Logo.svg';
-import FooterBg from '../assets/for footer.webp';
+import AAAGLogo from '../assets/logo/aaag-logo.svg';
+import FooterBg from '../assets/images/for-footer.webp';
 import { Link } from 'react-router-dom';
 
 export const Footer: React.FC = () => {
