@@ -1,0 +1,79 @@
+﻿@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", sans-serif;
+  --color-aaag-blue: #3b2e73;
+  --color-aaag-dark: #1f1b20;
+  --color-aaag-grey: #727271;
+  --color-aaag-white: #ffffff;
+  --color-aaag-light: #f3f4f6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Hide scrollbar but keep scrolling behavior */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom scrollbar for visible scroll areas */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f1b20;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3b2e73;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #5342a3;
+}
+
+/* Slide hover effect adapted for Safety CTA */
+.safety-slide-btn {
+  --btn-color: #3b2e73;
+  --btn-hover: #5a47b8;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--btn-color);
+  border: 2px solid var(--btn-color);
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(59, 46, 115, 0.22);
+  transition: color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.safety-slide-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--btn-hover);
+  transform: translateX(-102%);
+  transition: transform 0.25s ease;
+  z-index: -1;
+}
+
+.safety-slide-btn:hover,
+.safety-slide-btn:focus-visible {
+  color: #ffffff;
+  border-color: var(--btn-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(90, 71, 184, 0.32);
+}
+
+.safety-slide-btn:hover::before,
+.safety-slide-btn:focus-visible::before {
+  transform: translateX(0);
+}
