@@ -1,29 +1,79 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# AAAG Frontend
 
-# Run and deploy your AI Studio app
+Фронтенд проекта `aaag---alatau-advance-air-group`.
 
-This contains everything you need to run your app locally.
+## Технологии
 
-View your app in AI Studio: https://ai.studio/apps/drive/1v6kiD7odmZM9i7d0cgtp0ZgEzxumXB-g
+- `React`
+- `TypeScript`
+- `Vite`
+- `Tailwind CSS`
+- `framer-motion`
+- `react-router-dom`
+- `react-leaflet`
 
-## Run Locally
+## Структура
 
-**Prerequisites:**  Node.js
+Проект реорганизован:
 
+- `frontend/` - исходники фронтенда (этот README находится здесь).
+- `ngrok/` - отдельная директория под ngrok.
+- В корне репозитория лежат `Dockerfile`, `docker-compose.yml`, `.dockerignore`.
 
-1. Install dependencies:
+## Требования
+
+- `Node.js` 20+
+- `npm` 10+
+- `Docker Desktop` (если запускаете через Docker)
+
+## Переменные окружения
+
+Файл: `frontend/.env.local`
+
+Минимально:
+
+```env
+GEMINI_API_KEY=YOUR_KEY_HERE
+```
+
+## Запуск через npm (локально)
+
+Команды выполняются из папки `frontend`:
+
+1. Установка зависимостей:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
+2. Запуск dev-сервера:
    `npm run dev`
-
-## Run with Docker Compose
-
-1. Build and start in background:
-   `docker-compose up -d --build`
-2. Open:
+3. Открыть:
    `http://localhost:3000`
-3. Stop:
+
+## Запуск через Docker Compose
+
+Команды выполняются из корня репозитория (на уровень выше `frontend`):
+
+1. Сборка и запуск:
+   `docker-compose up -d --build`
+2. Открыть:
+   `http://localhost:3000`
+3. Остановка:
    `docker-compose down`
+
+## Полезные npm-скрипты
+
+Выполняются из `frontend`:
+
+- `npm run dev` - запуск в режиме разработки.
+- `npm run build` - production-сборка в `frontend/dist`.
+- `npm run preview` - локальный просмотр production-сборки.
+
+## Маршруты приложения
+
+- `/main` - главная страница.
+- `/security` - страница безопасности.
+- `/privacy` - политика конфиденциальности.
+- `/terms` - условия использования.
+
+Legacy-редиректы:
+
+- `/` -> `/main`
+- `/bezop` -> `/security`
