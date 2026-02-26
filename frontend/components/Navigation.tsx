@@ -16,7 +16,7 @@ export const Navigation: React.FC = () => {
 
   const navItems = isBezopRoute
     ? [
-        { label: 'Верх', href: '#safety-top' },
+        { label: 'Безопасность', href: '#safety-top' },
         { label: 'Архитектура', href: '#safety-architecture' },
         { label: 'Сценарии', href: '#safety-scenarios' },
       ]
