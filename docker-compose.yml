@@ -4,20 +4,5 @@
       context: .
       dockerfile: Dockerfile
     ports:
-      - "3001:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "3001:80"
     restart: unless-stopped
-
-  ngrok:
-    image: ngrok/ngrok:latest
-    depends_on:
-      - app
-    command: http app:3000 --pooling-enabled --log stdout
-    environment:
-      NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
-    ports:
-      - "4040:4040"
-    restart: unless-stopped
-

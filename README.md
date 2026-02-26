@@ -3,7 +3,6 @@
 Актуальная структура проекта:
 
 - `frontend/` - фронтенд-приложение (React + TypeScript + Vite).
-- `ngrok/` - директория под ngrok-материалы (опционально).
 - `Dockerfile`, `docker-compose.yml` - контейнерный запуск из корня.
 
 ## Технологии фронтенда
@@ -21,15 +20,6 @@
 - `Node.js` 20+
 - `npm` 10+
 - `Docker Desktop`
-- аккаунт ngrok и `authtoken` (для стабильной работы туннеля)
-
-## Переменные окружения
-
-В корне проекта создайте файл `.env`:
-
-```env
-NGROK_AUTHTOKEN=YOUR_NGROK_AUTHTOKEN
-```
 
 ## Запуск через npm
 
@@ -42,7 +32,7 @@ NGROK_AUTHTOKEN=YOUR_NGROK_AUTHTOKEN
 3. Открыть в браузере:
    `http://localhost:3000`
 
-## Запуск через Docker Compose (с ngrok)
+## Запуск через Docker Compose
 
 Команды выполнять из корня проекта:
 
@@ -50,10 +40,7 @@ NGROK_AUTHTOKEN=YOUR_NGROK_AUTHTOKEN
    `docker-compose up -d --build`
 2. Локальный сайт:
    `http://localhost:3001`
-3. Панель ngrok (инспектор):
-   `http://localhost:4040`
-4. Публичный URL сайта берется из инспектора ngrok (`Forwarding`).
-5. Остановить:
+3. Остановить:
    `docker-compose down`
 
 ## Сборка фронтенда
@@ -77,6 +64,4 @@ Legacy-редиректы:
 
 ## Важно
 
-- `npm run dev` использует `3000`, а `docker-compose` публикует `3001` -> прямого конфликта портов нет.
 - `.gitignore` должен быть в репозитории - это нормальная и правильная практика.
-- Если в логах `ngrok` видишь `ERR_NGROK_334`, это конфликт endpoint: такой же URL уже используется другим ngrok-процессом/контейнером.
