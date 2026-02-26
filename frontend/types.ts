@@ -1,9 +1,3 @@
-export interface TeamMember {
-  name: string;
-  role: string;
-  image?: string;
-}
-
 export interface RoadmapItem {
   year: string;
   title: string;
@@ -24,5 +18,4 @@ export interface RouteItem {
 
 export interface Partner {
   name: string;
-  logo: string;
 }

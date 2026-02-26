@@ -1,10 +1,11 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import AAAGLogo from '../assets/logo/aaag-logo.svg';
 
 export const Navigation: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isSafetyActive, setIsSafetyActive] = useState(false);
   const [isEcologyActive, setIsEcologyActive] = useState(false);
@@ -43,13 +44,26 @@ export const Navigation: React.FC = () => {
     const scrollRoot = document.querySelector('main');
     if (scrollRoot instanceof HTMLElement) {
       scrollRoot.scrollTo({ top: 0, behavior: 'smooth' });
+      if (isMainRoute && location.hash) {
+        navigate('/main', { replace: true });
+      }
       return;
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isMainRoute && location.hash) {
+      navigate('/main', { replace: true });
+    }
   };
 
   const handleHashClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('/main#')) {
+      event.preventDefault();
+      navigate(href);
+      setIsMobileOpen(false);
+      return;
+    }
     if (!href.startsWith('#')) return;
+
     event.preventDefault();
     const target = document.querySelector(href);
     if (target instanceof HTMLElement) {

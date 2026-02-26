@@ -142,7 +142,7 @@ export const SafetyPage: React.FC = () => {
         <Section id="safety-architecture" className="bg-white text-aaag-dark" dark={false}>
           <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 md:pt-28 pb-14">
             <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
-              <div className="order-1 w-full lg:col-start-2 lg:translate-x-[11.5rem] lg:-translate-y-[5rem]">
+              <div className="order-1 w-full lg:col-start-2 lg:translate-x-[11.5rem] lg:-translate-y-[6.5rem]">
                 <img
                   src={SafetyDiagram}
                   alt="Safety diagram"

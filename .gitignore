@@ -26,3 +26,7 @@ dist-ssr
 # Local environment files
 .env
 
+# Local working notes/reports
+**/context.md
+**/critical.md
+

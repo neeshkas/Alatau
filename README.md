@@ -49,7 +49,7 @@ NGROK_AUTHTOKEN=YOUR_NGROK_AUTHTOKEN
 1. Собрать и запустить:
    `docker-compose up -d --build`
 2. Локальный сайт:
-   `http://localhost:3000`
+   `http://localhost:3001`
 3. Панель ngrok (инспектор):
    `http://localhost:4040`
 4. Публичный URL сайта берется из инспектора ngrok (`Forwarding`).
@@ -77,6 +77,6 @@ Legacy-редиректы:
 
 ## Важно
 
-- Если одновременно запускать `npm run dev` и `docker-compose up`, будет конфликт порта `3000`.
+- `npm run dev` использует `3000`, а `docker-compose` публикует `3001` -> прямого конфликта портов нет.
 - `.gitignore` должен быть в репозитории - это нормальная и правильная практика.
 - Если в логах `ngrok` видишь `ERR_NGROK_334`, это конфликт endpoint: такой же URL уже используется другим ngrok-процессом/контейнером.

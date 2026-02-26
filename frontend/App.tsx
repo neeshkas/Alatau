@@ -1,5 +1,5 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Technology } from './components/Technology';
@@ -8,15 +8,29 @@ import { Ecology } from './components/Ecology';
 import { Vision } from './components/Vision';
 import { Roadmap } from './components/Roadmap';
 import { Footer } from './components/Footer';
-
-const RoutesMap = lazy(() => import('./components/RoutesMap').then((m) => ({ default: m.RoutesMap })));
-const SafetyPage = lazy(() => import('./pages/SafetyPage').then((m) => ({ default: m.SafetyPage })));
-const PrivacyPage = lazy(() => import('./pages/PrivacyPage').then((m) => ({ default: m.PrivacyPage })));
-const TermsPage = lazy(() => import('./pages/TermsPage').then((m) => ({ default: m.TermsPage })));
-
-const PageFallback: React.FC = () => <div className="min-h-screen w-full bg-aaag-dark" aria-hidden="true" />;
+import { RoutesMap } from './components/RoutesMap';
+import { SafetyPage } from './pages/SafetyPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { TermsPage } from './pages/TermsPage';
 
 const Landing: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    const scrollRoot = document.querySelector('main');
+    if (!(scrollRoot instanceof HTMLElement)) return;
+
+    if (!location.hash) {
+      scrollRoot.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const target = document.querySelector(location.hash);
+    if (target instanceof HTMLElement) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [location.pathname, location.hash]);
+
   return (
     <div className="font-sans text-base">
       <Navigation />
@@ -37,16 +51,15 @@ const Landing: React.FC = () => {
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Suspense fallback={<PageFallback />}>
-        <Routes>
-          <Route path="/" element={<Navigate to="/main" replace />} />
-          <Route path="/main" element={<Landing />} />
-          <Route path="/bezop" element={<Navigate to="/security" replace />} />
-          <Route path="/security" element={<SafetyPage />} />
-          <Route path="/privacy" element={<PrivacyPage />} />
-          <Route path="/terms" element={<TermsPage />} />
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route path="/" element={<Navigate to="/main" replace />} />
+        <Route path="/main" element={<Landing />} />
+        <Route path="/bezop" element={<Navigate to="/security" replace />} />
+        <Route path="/security" element={<SafetyPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="*" element={<Navigate to="/main" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 };

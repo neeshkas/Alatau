@@ -5,6 +5,7 @@ import { motion, animate } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, GeoJSON } from 'react-leaflet';
 import type { Polyline as LeafletPolyline } from 'leaflet';
+import type { GeoJsonObject } from 'geojson';
 import RoutesBg from '../assets/images/for-routes.webp';
 
 const MapSizeFix: React.FC<{ trigger: string | null }> = ({ trigger }) => {
@@ -28,7 +29,7 @@ const MapFit: React.FC<{ positions: [number, number][]; routeId: string | null }
   React.useEffect(() => {
     if (!positions.length) return;
     const isCloseRoute = routeId === 'r1' || routeId === 'r2';
-    const padding = isCloseRoute ? [40, 40] : [50, 50];
+    const padding: [number, number] = isCloseRoute ? [40, 40] : [50, 50];
     const maxZoom = isCloseRoute ? 15 : 14;
     map.fitBounds(positions, { padding, maxZoom, animate: false });
     const id = window.setTimeout(() => {
@@ -48,7 +49,7 @@ const AnimatedRoute: React.FC<{
   const map = useMap();
   React.useEffect(() => {
     const layer = polylineRef.current;
-    const path = layer ? (layer as any)._path as SVGPathElement | undefined : undefined;
+    const path = layer ? (layer as LeafletPolyline & { _path?: SVGPathElement })._path : undefined;
     if (!path) return;
 
     const svg = path.ownerSVGElement;
@@ -293,8 +294,8 @@ const MapLabelsOverlay: React.FC<{
 };
 
 export const RoutesMap: React.FC = () => {
-  const [almatyBoundary, setAlmatyBoundary] = useState<any | null>(null);
-  const [almatyRoads, setAlmatyRoads] = useState<any | null>(null);
+  const [almatyBoundary, setAlmatyBoundary] = useState<GeoJsonObject | null>(null);
+  const [almatyRoads, setAlmatyRoads] = useState<GeoJsonObject | null>(null);
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
   const [routeTick, setRouteTick] = useState(0);
   const [planeCoords, setPlaneCoords] = useState<[number, number]>(ROUTES_DATA[0].coordinates.start);
@@ -550,6 +551,7 @@ export const RoutesMap: React.FC = () => {
     </Section>
   );
 };
+
 
 
 

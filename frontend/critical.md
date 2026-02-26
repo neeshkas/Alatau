@@ -1,40 +1,77 @@
-﻿**Краткий итог**
-Сайт визуально сильный, но сейчас есть несколько технических проблем, которые влияют на UX, доступность и скорость загрузки.
+# Critical Report (Actual)
 
-**Критичные/высокий приоритет**
-1. Неполная конфигурация `index.html` для Vite production:
-- Подключён Tailwind через CDN вместо локальной сборки: [index.html:15](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/index.html:15)
-- Есть `importmap`, который для собранного Vite-приложения не нужен и может создавать конфликты: [index.html:69](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/index.html:69)
-- Ссылка на отсутствующий файл `index.css`: [index.html:80](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/index.html:80)  
-  Билд это подтверждает: `"/index.css doesn't exist at build time"`.
+## Краткий итог
+Проект стабилен по сборке (`vite build` и `tsc --noEmit` проходят), но есть приоритетные несоответствия между кодом и документацией, а также техдолг, который повышает риск регрессий и усложняет поддержку.
 
-2. Очень тяжёлые ассеты (сильно бьют по LCP и мобильной загрузке):
-- `assets/моделька.png` ~11.43 MB
-- `assets/images/photo-for-block3.webp` ~8.37 MB
-- `assets/images/photo-for-block2.webp` ~8.02 MB
-- JS bundle ~1.53 MB (`dist/assets/index-*.js`) и warning о больших чанках.
+## P0 - Исправить в первую очередь
 
-3. Неправильный скролл к началу страницы по клику на логотип:
-- Используется `window.scrollTo(0,0)`, но скроллится внутренний `main`: [components/Navigation.tsx:79](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/components/Navigation.tsx:79)
+1. Несоответствие README и Docker Compose по порту
+- В `README.md` для Docker указан `http://localhost:3000`, но фактически `docker-compose.yml` публикует `3001:3000`.
+- Риск: ложные инструкции для запуска, лишние баг-репорты "не открывается".
+- Что сделать:
+  - Либо обновить README на `http://localhost:3001`,
+  - Либо вернуть проброс `3000:3000` в compose (если это ожидаемое поведение).
 
-**Средний приоритет**
-1. Доступность: запрещён zoom на мобильных  
-- `user-scalable=0`: [index.html:5](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/index.html:5)
+2. Актуализировать `context.md`
+- В `context.md` зафиксировано, что добавлен `React.lazy + Suspense`, но в текущем коде этого нет.
+- Риск: неверное представление о перформанс-оптимизациях, ошибки в дальнейших решениях.
+- Что сделать:
+  - Либо реально внедрить route/component lazy-loading,
+  - Либо убрать/исправить этот пункт в журнале.
 
-2. SPA-навигация:
-- Переход на `/bezop` сделан через `<a href>`, что делает полный reload вместо client-side роутинга: [components/Safety.tsx:81](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/components/Safety.tsx:81)
-- При `BrowserRouter` нужен серверный fallback для прямого захода на `/bezop`: [App.tsx:34](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/App.tsx:34)
+## P1 - Высокий приоритет
 
-3. Пустые ссылки `href="#"` (лишние переходы/прыжок страницы):
-- [components/Footer.tsx:51](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/components/Footer.tsx:51)
-- [components/Footer.tsx:52](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/components/Footer.tsx:52)
-- [components/Footer.tsx:53](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/components/Footer.tsx:53)
-- [components/Footer.tsx:85](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/components/Footer.tsx:85)
-- [components/Footer.tsx:86](d:/Desktop/projects/aaag---alatau-advance-air-group%20(1)/components/Footer.tsx:86)
+1. Удалить или интегрировать мертвый код
+- Есть неиспользуемые компоненты: `Team.tsx`, `SafetySections.tsx`, а также связанные `BackgroundImage.tsx`/`evtolMedia.ts`.
+- Риск: расхождение версий UI, рост когнитивной нагрузки, случайное использование устаревшей логики.
+- Что сделать:
+  - Принять решение: удалить полностью или вернуть в прод-маршруты.
+  - После решения почистить импорты и ассеты.
 
-**Что проверено**
-- `npm run build`: проходит, но с warning по размеру чанков и отсутствующему `index.css`.
-- `npx tsc --noEmit`: ошибок типов нет.
+2. Починить проблемы кодировки в контентных файлах
+- `Technical Specification.md` (и часть старых строк) отображаются как mojibake.
+- Риск: потеря требований и неоднозначность для команды.
+- Что сделать:
+  - Привести файл к UTF-8 (без BOM/с BOM - единый стандарт по проекту),
+  - Перепроверить отображение русского текста в редакторе и git diff.
 
-Если нужно, следующим шагом могу сразу внести фикс-пакет: убрать CDN/importmap, подключить Tailwind нормально через Vite, поправить навигацию/скролл и сделать базовую оптимизацию изображений.
+3. Унифицировать SPA-навигацию
+- В проекте смешаны `Link` и обычные `<a href="/main#...">`.
+- Риск: лишние полные перезагрузки, потеря состояния и дёрганый UX.
+- Что сделать:
+  - Для внутренних переходов использовать единый подход через роутер + hash-scroll helper.
+  - Явно оставить обычные `<a>` только для внешних URL и `mailto:`.
 
+## P2 - Средний приоритет (качество и поддерживаемость)
+
+1. Ввести базовый quality-gate
+- Сейчас нет `lint`/`test`-скриптов в `package.json`.
+- Риск: ошибки стиля/логики проходят незамеченными.
+- Что сделать:
+  - Добавить ESLint + `npm run lint`,
+  - Добавить минимум smoke/test-check (если без юнитов, то хотя бы CI-команды сборки+линта+тайпчека).
+
+2. Усилить TypeScript-конфигурацию
+- `tsconfig.json` не в strict-режиме, `allowJs: true`.
+- Риск: типовые дефекты не ловятся на раннем этапе.
+- Что сделать:
+  - Пошагово включить `strict`,
+  - Пересмотреть необходимость `allowJs`,
+  - Включать флаги постепенно с фиксом ошибок по модулям.
+
+## Рекомендуемый порядок работ
+
+1. Синхронизировать README/compose по порту.
+2. Обновить `context.md` под факт (или внедрить lazy-loading и зафиксировать).
+3. Решить судьбу мертвых компонентов и почистить кодовую базу.
+4. Исправить кодировку `Technical Specification.md`.
+5. Привести внутреннюю навигацию к единому SPA-подходу.
+6. Добавить lint/check-команды и усилить TS-настройки.
+
+## Критерии завершения
+
+- Документация соответствует фактическому запуску и коду.
+- В репозитории нет неиспользуемых крупных компонентов без причины.
+- Контентные документы читаемы в UTF-8.
+- Внутренняя навигация не вызывает full reload.
+- Есть минимальный quality-gate: lint + typecheck + build.

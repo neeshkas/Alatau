@@ -4,10 +4,14 @@ import App from './App';
 import 'leaflet/dist/leaflet.css';
 import './index.css';
 
-const pendingRedirect = sessionStorage.getItem('aaag_redirect');
-if (pendingRedirect) {
-  sessionStorage.removeItem('aaag_redirect');
-  window.history.replaceState(null, '', pendingRedirect);
+try {
+  const pendingRedirect = sessionStorage.getItem('aaag_redirect');
+  if (pendingRedirect) {
+    sessionStorage.removeItem('aaag_redirect');
+    window.history.replaceState(null, '', pendingRedirect);
+  }
+} catch {
+  // Ignore storage/history restrictions and continue rendering.
 }
 
 const rootElement = document.getElementById('root');

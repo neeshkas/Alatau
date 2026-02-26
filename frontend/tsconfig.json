@@ -16,7 +16,8 @@
     "moduleResolution": "bundler",
     "isolatedModules": true,
     "moduleDetection": "force",
-    "allowJs": true,
+    "strict": true,
+    "allowJs": false,
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "paths": {
