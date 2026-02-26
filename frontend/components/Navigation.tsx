@@ -156,7 +156,7 @@ export const Navigation: React.FC = () => {
           ))}
           <a
             href="mailto:info@aaag.kz"
-            className={`px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
+            className={`nav-contact-pulse px-6 py-2 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 ${
               isLightVariant
                 ? 'border border-aaag-blue text-aaag-blue hover:bg-aaag-blue hover:text-white'
                 : 'border border-white text-white hover:bg-white hover:text-cyan-400'
