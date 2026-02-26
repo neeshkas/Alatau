@@ -155,12 +155,12 @@ export const SafetyPage: React.FC = () => {
                 className="order-2 lg:order-1 lg:pr-6"
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+                viewport={{ once: true, amount: 0.3 }}
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } } }}
               >
                 <div className="mb-6 inline-flex items-center gap-3">
-                  <span className="h-px w-8 bg-aaag-blue/50"></span>
-                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-aaag-blue">
+                  <span className="h-px w-10 bg-aaag-blue/60"></span>
+                  <p className="text-sm md:text-base font-semibold uppercase tracking-[0.34em] text-aaag-blue">
                     Safety Core
                   </p>
                 </div>
@@ -168,17 +168,20 @@ export const SafetyPage: React.FC = () => {
                   {ARCHITECTURE_NOTES.map((note, idx) => (
                     <motion.div
                       key={note}
-                      variants={{ hidden: { opacity: 0, x: -28, y: 12 }, show: { opacity: 1, x: 0, y: 0 } }}
-                      transition={{ duration: 0.55, delay: idx * 0.08, ease: 'easeOut' }}
-                      viewport={{ once: true, amount: 0.35 }}
-                      whileHover={{ scale: 1.015, x: 6 }}
+                      variants={{
+                        hidden: { opacity: 0, x: -34, y: 14, scale: 0.992 },
+                        show: { opacity: 1, x: 0, y: 0, scale: 1 },
+                      }}
+                      transition={{ duration: 0.4, delay: idx * 0.05, ease: [0.22, 1, 0.36, 1] }}
+                      viewport={{ once: true, amount: 0.4 }}
+                      whileHover={{ scale: 1.018, x: 8, y: -1 }}
                       className="rounded-[38px] border border-[#DDD4F2] bg-white/95 px-5 py-4 md:px-7 md:py-5 shadow-[0_14px_30px_rgba(15,23,42,0.08)] transition-shadow hover:shadow-[0_18px_38px_rgba(59,46,115,0.17)]"
                     >
                       <div className="flex items-start gap-4">
-                        <div className="w-11 h-11 rounded-full bg-[#F1EEFA] border border-[#E7E2F4] flex items-center justify-center text-aaag-blue shrink-0">
+                        <div className="w-11 h-11 rounded-full bg-[#F1EEFA] border border-[#E7E2F4] flex items-center justify-center text-[1rem] font-semibold text-aaag-blue shrink-0">
                           {String(idx + 1).padStart(2, '0')}
                         </div>
-                        <p className="text-sm md:text-base text-gray-600 mt-1 leading-relaxed">{note}</p>
+                        <p className="text-base md:text-[1.14rem] font-medium text-[#322F45] mt-1 leading-[1.5]">{note}</p>
                       </div>
                     </motion.div>
                   ))}

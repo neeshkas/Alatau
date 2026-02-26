@@ -1,7 +1,7 @@
 ﻿import React, { useEffect, useMemo, useState } from 'react';
 import { Section } from './Section';
 import { ROUTES_DATA } from '../constants';
-import { motion, animate } from 'framer-motion';
+import { motion, animate, useReducedMotion } from 'framer-motion';
 import { Navigation, ArrowRight } from 'lucide-react';
 import { MapContainer, TileLayer, Polyline, CircleMarker, Tooltip, useMap, Pane, useMapEvents, GeoJSON } from 'react-leaflet';
 import type { Polyline as LeafletPolyline } from 'leaflet';
@@ -294,6 +294,7 @@ const MapLabelsOverlay: React.FC<{
 };
 
 export const RoutesMap: React.FC = () => {
+  const shouldReduceMotion = useReducedMotion();
   const [almatyBoundary, setAlmatyBoundary] = useState<GeoJsonObject | null>(null);
   const [almatyRoads, setAlmatyRoads] = useState<GeoJsonObject | null>(null);
   const [activeRoute, setActiveRoute] = useState<string | null>(ROUTES_DATA[0].id);
@@ -404,45 +405,64 @@ export const RoutesMap: React.FC = () => {
           filter: none;
         }
       `}</style>
-      <div className="mt-16 lg:mt-20 flex flex-col lg:flex-row w-full h-full min-h-[80vh] max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative z-10">
+      <motion.div
+        className="mt-16 lg:mt-20 flex flex-col lg:flex-row w-full h-full min-h-[80vh] max-w-7xl mx-auto rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative z-10"
+        initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+        whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+        transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+        viewport={{ once: true, amount: 0.25 }}
+      >
         
         {/* Sidebar / Accordion */}
         <div className="w-full lg:w-1/3 bg-aaag-blue/20 backdrop-blur-xl p-8 flex flex-col z-20">
-            <h2 className="text-3xl font-bold mb-8 uppercase tracking-widest flex items-center gap-3">
+            <motion.h2
+                className="text-3xl font-bold mb-8 uppercase tracking-widest flex items-center gap-3"
+                initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+                whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1], delay: 0.05 }}
+                viewport={{ once: true, amount: 0.6 }}
+            >
                 <Navigation className="text-aaag-blue" />
                 Маршруты
-            </h2>
+            </motion.h2>
             
             <div className="space-y-4">
-                {ROUTES_DATA.map((route) => (
-                    <button
-                        key={route.id}
-                        onClick={() => {
-                          setActiveRoute(route.id);
-                          setRouteTick((v) => v + 1);
-                        }}
-                        className={`w-full text-left p-6 rounded-xl transition-all duration-300 group border ${
-                            activeRoute === route.id 
-                            ? 'bg-aaag-blue text-white border-aaag-blue shadow-[0_0_20px_rgba(59,46,115,0.5)]' 
-                            : 'bg-white/5 text-gray-400 border-white/10 hover:bg-white/10'
-                        }`}
+                {ROUTES_DATA.map((route, idx) => (
+                    <motion.div
+                      key={route.id}
+                      initial={shouldReduceMotion ? false : { opacity: 0, y: 12 }}
+                      whileInView={shouldReduceMotion ? undefined : { opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1], delay: 0.08 + idx * 0.05 }}
+                      viewport={{ once: true, amount: 0.55 }}
                     >
-                        <div className="flex justify-between items-center mb-2">
-                            <h3 className="font-bold text-lg">{route.from}</h3>
-                            <ArrowRight size={16} className={activeRoute === route.id ? 'text-white' : 'text-gray-600'} />
-                        </div>
-                        <h3 className="font-bold text-lg mb-3">{route.to}</h3>
-                        
-                        <motion.div 
-                            initial={false}
-                            animate={{ height: activeRoute === route.id ? 'auto' : 0, opacity: activeRoute === route.id ? 1 : 0 }}
-                            className="overflow-hidden"
-                        >
-                            <p className="text-sm font-light leading-relaxed opacity-90">
-                                {route.description}
-                            </p>
-                        </motion.div>
-                    </button>
+                      <button
+                          onClick={() => {
+                            setActiveRoute(route.id);
+                            setRouteTick((v) => v + 1);
+                          }}
+                          className={`w-full text-left p-6 rounded-xl transition-all duration-300 group border ${
+                              activeRoute === route.id 
+                              ? 'bg-aaag-blue text-white border-aaag-blue shadow-[0_0_20px_rgba(59,46,115,0.5)]' 
+                              : 'bg-white/5 text-gray-400 border-white/10 hover:bg-white/10'
+                          }`}
+                      >
+                          <div className="flex justify-between items-center mb-2">
+                              <h3 className="font-bold text-lg">{route.from}</h3>
+                              <ArrowRight size={16} className={activeRoute === route.id ? 'text-white' : 'text-gray-600'} />
+                          </div>
+                          <h3 className="font-bold text-lg mb-3">{route.to}</h3>
+                          
+                          <motion.div 
+                              initial={false}
+                              animate={{ height: activeRoute === route.id ? 'auto' : 0, opacity: activeRoute === route.id ? 1 : 0 }}
+                              className="overflow-hidden"
+                          >
+                              <p className="text-sm font-light leading-relaxed opacity-90">
+                                  {route.description}
+                              </p>
+                          </motion.div>
+                      </button>
+                    </motion.div>
                 ))}
             </div>
         </div>
@@ -547,7 +567,7 @@ export const RoutesMap: React.FC = () => {
                 </p>
             </div>
         </div>
-      </div>
+      </motion.div>
     </Section>
   );
 };

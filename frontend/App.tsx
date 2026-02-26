@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Technology } from './components/Technology';
@@ -49,67 +48,18 @@ const Landing: React.FC = () => {
   );
 };
 
-const AnimatedShell: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 18, scale: 0.996 }}
-    animate={{ opacity: 1, y: 0, scale: 1 }}
-    exit={{ opacity: 0, y: -14, scale: 0.996 }}
-    transition={{ duration: 0.34, ease: [0.22, 1, 0.36, 1] }}
-  >
-    {children}
-  </motion.div>
-);
-
-const AnimatedRoutes: React.FC = () => {
-  const location = useLocation();
-
-  return (
-    <AnimatePresence mode="wait" initial={false}>
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Navigate to="/main" replace />} />
-        <Route
-          path="/main"
-          element={(
-            <AnimatedShell>
-              <Landing />
-            </AnimatedShell>
-          )}
-        />
-        <Route path="/bezop" element={<Navigate to="/security" replace />} />
-        <Route
-          path="/security"
-          element={(
-            <AnimatedShell>
-              <SafetyPage />
-            </AnimatedShell>
-          )}
-        />
-        <Route
-          path="/privacy"
-          element={(
-            <AnimatedShell>
-              <PrivacyPage />
-            </AnimatedShell>
-          )}
-        />
-        <Route
-          path="/terms"
-          element={(
-            <AnimatedShell>
-              <TermsPage />
-            </AnimatedShell>
-          )}
-        />
-        <Route path="*" element={<Navigate to="/main" replace />} />
-      </Routes>
-    </AnimatePresence>
-  );
-};
-
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <AnimatedRoutes />
+      <Routes>
+        <Route path="/" element={<Navigate to="/main" replace />} />
+        <Route path="/main" element={<Landing />} />
+        <Route path="/bezop" element={<Navigate to="/security" replace />} />
+        <Route path="/security" element={<SafetyPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="*" element={<Navigate to="/main" replace />} />
+      </Routes>
     </BrowserRouter>
   );
 };
