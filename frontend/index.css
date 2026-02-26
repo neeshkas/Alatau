@@ -77,3 +77,7 @@ html {
 .safety-slide-btn:focus-visible::before {
   transform: translateX(0);
 }
+
+.safety-slide-btn--reverse::before {
+  transform: translateX(102%);
+}

@@ -50,6 +50,15 @@ const FAILURE_LIST = [
   },
 ];
 
+const ARCHITECTURE_NOTES = [
+  'Каждый пропеллер оснащен двумя двигателями для надежности.',
+  'При отказе одного пропеллера двигатель-пара автоматически отключается для сохранения баланса.',
+  'Возможна планирующая посадка.',
+  'Посадка возможна даже на двух пропеллерах.',
+  'Резервная батарея питает ключевые системы при отказе основного источника.',
+  'Три контура управления: основной, резервный и аварийный, обеспечивают максимальную надежность.',
+];
+
 export const SafetyPage: React.FC = () => {
   return (
     <div className="font-sans text-base">
@@ -87,7 +96,7 @@ export const SafetyPage: React.FC = () => {
                 </p>
                 <Link
                   to="/main#safety"
-                  className="inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full border border-aaag-blue text-aaag-blue text-xs font-semibold uppercase tracking-[0.35em] hover:bg-aaag-blue hover:text-white transition-colors"
+                  className="safety-slide-btn safety-slide-btn--reverse inline-flex items-center gap-2 mt-6 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-[0.35em]"
                 >
                   Назад на главную
                 </Link>
@@ -142,6 +151,39 @@ export const SafetyPage: React.FC = () => {
         <Section id="safety-architecture" className="bg-white text-aaag-dark" dark={false}>
           <div className="relative z-10 max-w-7xl mx-auto px-6 w-full pt-24 md:pt-28 pb-14">
             <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
+              <motion.div
+                className="order-2 lg:order-1 lg:pr-6"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+              >
+                <div className="mb-6 inline-flex items-center gap-3">
+                  <span className="h-px w-8 bg-aaag-blue/50"></span>
+                  <p className="text-xs font-semibold uppercase tracking-[0.32em] text-aaag-blue">
+                    Safety Core
+                  </p>
+                </div>
+                <div className="space-y-4">
+                  {ARCHITECTURE_NOTES.map((note, idx) => (
+                    <motion.div
+                      key={note}
+                      variants={{ hidden: { opacity: 0, x: -28, y: 12 }, show: { opacity: 1, x: 0, y: 0 } }}
+                      transition={{ duration: 0.55, delay: idx * 0.08, ease: 'easeOut' }}
+                      viewport={{ once: true, amount: 0.35 }}
+                      whileHover={{ scale: 1.015, x: 6 }}
+                      className="rounded-[38px] border border-[#DDD4F2] bg-white/95 px-5 py-4 md:px-7 md:py-5 shadow-[0_14px_30px_rgba(15,23,42,0.08)] transition-shadow hover:shadow-[0_18px_38px_rgba(59,46,115,0.17)]"
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-11 h-11 rounded-full bg-[#F1EEFA] border border-[#E7E2F4] flex items-center justify-center text-aaag-blue shrink-0">
+                          {String(idx + 1).padStart(2, '0')}
+                        </div>
+                        <p className="text-sm md:text-base text-gray-600 mt-1 leading-relaxed">{note}</p>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
               <div className="order-1 w-full lg:col-start-2 lg:translate-x-[11.5rem] lg:-translate-y-[6.5rem]">
                 <img
                   src={SafetyDiagram}
