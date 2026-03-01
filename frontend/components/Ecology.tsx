@@ -58,17 +58,17 @@ export const Ecology: React.FC = () => {
               <p className="text-sm uppercase tracking-[0.3em] text-gray-500">Уровень шума</p>
               <span className="text-xs uppercase tracking-[0.35em] text-gray-400">dB scale</span>
             </div>
-            <div className="mt-6 space-y-4">
+            <div className="mt-6 space-y-4" dir="ltr">
               {NOISE_LEVELS.map((item, idx) => (
                 <div key={item.label} className="flex items-center gap-4">
                   <div className="w-28 text-xs uppercase tracking-wide text-gray-500">{item.label}</div>
                   <div className="flex-1">
                     <div className="h-3 rounded-full bg-gray-200/70 overflow-hidden">
                       <motion.div
-                        className="h-full rounded-full"
+                        className="h-full rounded-full origin-left"
                         style={{ backgroundColor: item.tone }}
-                        initial={shouldReduceMotion ? { width: `${item.value}%` } : { width: 0 }}
-                        whileInView={{ width: `${item.value}%` }}
+                        initial={shouldReduceMotion ? { scaleX: item.value / 100 } : { scaleX: 0 }}
+                        whileInView={{ scaleX: item.value / 100 }}
                         transition={{ duration: 0.9, delay: idx * 0.15 }}
                         viewport={{ once: true, amount: 0.6 }}
                       />

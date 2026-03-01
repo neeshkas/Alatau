@@ -14,29 +14,23 @@ export const Navigation: React.FC = () => {
   const isMainRoute = location.pathname === '/main';
   const isBezopRoute = location.pathname === '/security';
 
-  const navItems = isBezopRoute
+  const navItems = isMainRoute
     ? [
-        { label: 'Безопасность', href: '#safety-top' },
-        { label: 'Архитектура', href: '#safety-architecture' },
-        { label: 'Сценарии', href: '#safety-scenarios' },
+        { label: 'Технология', href: '#technology' },
+        { label: 'Безопасность', href: '#safety' },
+        { label: 'Экология', href: '#ecology' },
+        { label: 'Vision', href: '#vision' },
+        { label: 'Roadmap', href: '#roadmap' },
+        { label: 'Маршруты', href: '#routes' },
       ]
-    : isMainRoute
-      ? [
-          { label: 'Технология', href: '#technology' },
-          { label: 'Безопасность', href: '#safety' },
-          { label: 'Экология', href: '#ecology' },
-          { label: 'Vision', href: '#vision' },
-          { label: 'Roadmap', href: '#roadmap' },
-          { label: 'Маршруты', href: '#routes' },
-        ]
-      : [
-          { label: 'Технология', href: '/main#technology' },
-          { label: 'Безопасность', href: '/main#safety' },
-          { label: 'Экология', href: '/main#ecology' },
-          { label: 'Vision', href: '/main#vision' },
-          { label: 'Roadmap', href: '/main#roadmap' },
-          { label: 'Маршруты', href: '/main#routes' },
-        ];
+    : [
+        { label: 'Технология', href: '/main#technology' },
+        { label: 'Безопасность', href: '/main#safety' },
+        { label: 'Экология', href: '/main#ecology' },
+        { label: 'Vision', href: '/main#vision' },
+        { label: 'Roadmap', href: '/main#roadmap' },
+        { label: 'Маршруты', href: '/main#routes' },
+      ];
 
   const isLightVariant = isFooterActive && !isBezopRoute;
 
