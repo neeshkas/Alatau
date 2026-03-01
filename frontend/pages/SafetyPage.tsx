@@ -58,10 +58,10 @@ const ARCHITECTURE_STEPS = [
 ];
 
 const ARCHITECTURE_CALLOUTS = [
-  { title: 'Propulsion', desc: 'Dual-motor redundant propellers.', positionClass: 'lg:top-1 lg:left-3' },
-  { title: 'Power', desc: 'Fail-safe battery backup.', positionClass: 'lg:top-1 lg:right-3' },
-  { title: 'Flight control', desc: 'Automated failure detection and balance stabilization.', positionClass: 'lg:bottom-16 lg:left-0' },
-  { title: 'Emergency logic', desc: 'Automated reconfiguration for safe landing.', positionClass: 'lg:bottom-16 lg:right-0' },
+  { title: 'Propulsion', desc: 'Dual-motor redundant propellers.', positionClass: 'lg:top-3 lg:left-10' },
+  { title: 'Power', desc: 'Fail-safe battery backup.', positionClass: 'lg:top-3 lg:right-10' },
+  { title: 'Flight control', desc: 'Automated failure detection and balance stabilization.', positionClass: 'lg:bottom-20 lg:left-8' },
+  { title: 'Emergency logic', desc: 'Automated reconfiguration for safe landing.', positionClass: 'lg:bottom-20 lg:right-8' },
 ];
 
 const ARCHITECTURE_SUMMARY = [
@@ -166,13 +166,14 @@ export const SafetyPage: React.FC = () => {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.8)_0%,rgba(237,239,247,0.94)_100%)]"></div>
           </div>
 
-          <div className="relative z-10 max-w-[1240px] mx-auto px-6 w-full pt-8 md:pt-10 pb-6 h-full">
-            <div className="grid grid-cols-1 lg:grid-cols-[0.88fr_1.12fr] lg:grid-rows-[auto_1fr] gap-x-7 gap-y-4 h-full lg:max-h-[calc(100vh-11rem)]">
+          <div className="relative z-10 max-w-[1280px] mx-auto px-6 w-full pt-8 md:pt-10 pb-6 h-full">
+            <div className="grid grid-cols-1 lg:grid-cols-[0.86fr_1.14fr] lg:grid-rows-[auto_1fr] gap-x-12 gap-y-4.5 h-full lg:max-h-[calc(100vh-11rem)]">
               <motion.div
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
+                className="max-w-[34rem] lg:-translate-x-5"
               >
                 <div className="mb-4 inline-flex items-center gap-3">
                   <p className="text-sm md:text-base font-semibold uppercase tracking-[0.34em] text-aaag-blue">Safety Core</p>
@@ -184,7 +185,7 @@ export const SafetyPage: React.FC = () => {
                   Redundant propulsion, power segmentation and autonomous emergency logic.
                 </p>
 
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   {ARCHITECTURE_STEPS.map((step, idx) => (
                     <motion.div
                       key={step.id}
@@ -213,7 +214,7 @@ export const SafetyPage: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 viewport={{ once: true, amount: 0.3 }}
-                className="relative lg:pt-1 lg:row-span-2"
+                className="relative lg:pt-1 lg:-mt-0.5 lg:row-span-2 lg:pl-2 lg:translate-x-5"
               >
                 <div className="relative lg:translate-x-[0.8rem]">
                   <div className="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 w-[84%] h-[76%] rounded-full bg-[radial-gradient(circle,rgba(179,171,214,0.32)_0%,rgba(179,171,214,0.1)_48%,rgba(179,171,214,0)_74%)]"></div>
@@ -246,8 +247,8 @@ export const SafetyPage: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="mt-3 text-center px-2">
-                  <h3 className="text-[2.2rem] md:text-[2.55rem] font-semibold leading-[1.05] text-[#27253B]">Redundant Safety Architecture</h3>
+                <div className="mt-5 text-center px-2">
+                  <h3 className="text-[2.2rem] md:text-[2.5rem] font-semibold leading-[1.05] text-[#27253B] max-w-[34rem] mx-auto">Redundant Safety Architecture</h3>
                   <p className="text-[0.95rem] md:text-[1rem] text-[#5D5976] mt-2">
                     Highly redundant system ensuring safe operation in failure scenarios.
                   </p>
@@ -258,7 +259,7 @@ export const SafetyPage: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.55, ease: 'easeOut' }}
                   viewport={{ once: true, amount: 0.4 }}
-                  className="mt-4 rounded-[20px] border border-[#DDD8EB] bg-white/94 shadow-[0_12px_22px_rgba(41,34,78,0.08)] overflow-hidden"
+                  className="mt-6 max-w-[610px] mx-auto rounded-[20px] border border-[#DDD8EB] bg-white/94 shadow-[0_12px_22px_rgba(41,34,78,0.08)] overflow-hidden"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {ARCHITECTURE_SUMMARY.map((item, idx) => (
