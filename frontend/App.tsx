@@ -31,14 +31,18 @@ const Landing: React.FC = () => {
     const target = document.getElementById(id);
     if (!(target instanceof HTMLElement)) return;
 
-    const rafId = window.requestAnimationFrame(() => {
-      const rootRect = scrollRoot.getBoundingClientRect();
-      const targetRect = target.getBoundingClientRect();
-      const nextTop = targetRect.top - rootRect.top + scrollRoot.scrollTop;
-      scrollRoot.scrollTo({ top: Math.max(0, nextTop), behavior: 'auto' });
-    });
+    const syncScrollToHash = () => {
+      // Use offsetTop to avoid transform-based route transition affecting rect calculations.
+      scrollRoot.scrollTo({ top: Math.max(0, target.offsetTop), behavior: 'auto' });
+    };
 
-    return () => window.cancelAnimationFrame(rafId);
+    const rafId = window.requestAnimationFrame(syncScrollToHash);
+    const timeoutId = window.setTimeout(syncScrollToHash, 560);
+
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.clearTimeout(timeoutId);
+    };
   }, [location.pathname, location.hash]);
 
   return (
