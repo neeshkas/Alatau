@@ -31,9 +31,15 @@ const Landing: React.FC = () => {
     const target = document.getElementById(id);
     if (!(target instanceof HTMLElement)) return;
 
+    const clearHashFromUrl = () => {
+      const cleanUrl = `${location.pathname}${location.search}`;
+      window.history.replaceState(null, '', cleanUrl);
+    };
+
     const syncScrollToHash = () => {
       // Use offsetTop to avoid transform-based route transition affecting rect calculations.
       scrollRoot.scrollTo({ top: Math.max(0, target.offsetTop), behavior: 'auto' });
+      clearHashFromUrl();
     };
 
     const rafId = window.requestAnimationFrame(syncScrollToHash);
@@ -43,7 +49,7 @@ const Landing: React.FC = () => {
       window.cancelAnimationFrame(rafId);
       window.clearTimeout(timeoutId);
     };
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.search, location.hash]);
 
   return (
     <div className="font-sans text-base">
