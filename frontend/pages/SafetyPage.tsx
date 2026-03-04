@@ -166,14 +166,14 @@ export const SafetyPage: React.FC = () => {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.8)_0%,rgba(237,239,247,0.94)_100%)]"></div>
           </div>
 
-          <div className="relative z-10 max-w-[1280px] mx-auto px-6 w-full pt-8 md:pt-10 pb-6 h-full">
-            <div className="grid grid-cols-1 lg:grid-cols-[0.86fr_1.14fr] lg:grid-rows-[auto_1fr] gap-x-12 gap-y-4.5 h-full lg:max-h-[calc(100vh-11rem)]">
+          <div className="relative z-10 max-w-[1280px] mx-auto px-6 w-full pt-12 md:pt-14 pb-12 md:pb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-[0.86fr_1.14fr] lg:grid-rows-[auto_1fr] gap-x-14 gap-y-10 items-start">
               <motion.div
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
-                className="max-w-[34rem] lg:-translate-x-5"
+                className="max-w-[35rem]"
               >
                 <div className="mb-4 inline-flex items-center gap-3">
                   <p className="text-sm md:text-base font-semibold uppercase tracking-[0.34em] text-aaag-blue">Safety Core</p>
@@ -181,17 +181,17 @@ export const SafetyPage: React.FC = () => {
                 <h2 className="text-3xl md:text-4xl lg:text-[2.85rem] font-bold leading-[1.05] max-w-[34rem]">
                   Fail-safe architecture designed for controlled landing
                 </h2>
-                <p className="text-[0.96rem] md:text-[1rem] text-[#56516E] leading-relaxed max-w-[31rem] mt-3 mb-5">
+                <p className="text-[0.96rem] md:text-[1rem] text-[#56516E] leading-relaxed max-w-[31rem] mt-4 mb-6">
                   Redundant propulsion, power segmentation and autonomous emergency logic.
                 </p>
 
-                <div className="space-y-3.5">
+                <div className="space-y-4">
                   {ARCHITECTURE_STEPS.map((step, idx) => (
                     <motion.div
                       key={step.id}
                       variants={{ hidden: { opacity: 0, x: -20, y: 10 }, show: { opacity: 1, x: 0, y: 0 } }}
                       transition={{ duration: 0.5, delay: idx * 0.06, ease: 'easeOut' }}
-                      className="rounded-[20px] border border-[#E2DDEE] bg-white/95 px-4.5 py-3 md:px-5 md:py-3.5 shadow-[0_8px_16px_rgba(41,34,78,0.08)]"
+                      className="rounded-[20px] border border-[#E2DDEE] bg-white/95 px-5 py-3.5 md:px-5.5 md:py-4 shadow-[0_10px_20px_rgba(41,34,78,0.08)]"
                     >
                       <div className="flex items-start gap-3.5">
                         <div className="w-9 h-9 rounded-full bg-aaag-blue text-white flex items-center justify-center text-[0.9rem] font-semibold shrink-0">
@@ -214,15 +214,15 @@ export const SafetyPage: React.FC = () => {
                 whileInView={{ opacity: 1, x: 0, y: 0 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
                 viewport={{ once: true, amount: 0.3 }}
-                className="relative lg:pt-1 lg:-mt-0.5 lg:row-span-2 lg:pl-2 lg:translate-x-5"
+                className="relative lg:row-span-2 lg:pl-1"
               >
-                <div className="relative lg:translate-x-[0.8rem]">
-                  <div className="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 w-[84%] h-[76%] rounded-full bg-[radial-gradient(circle,rgba(179,171,214,0.32)_0%,rgba(179,171,214,0.1)_48%,rgba(179,171,214,0)_74%)]"></div>
-                  <div className="absolute left-1/2 top-[44%] -translate-x-1/2 -translate-y-1/2 w-[86%] h-[62%] rounded-full border border-[#DCD8EB]/70"></div>
+                <div className="relative">
+                  <div className="absolute left-1/2 top-[43%] -translate-x-1/2 -translate-y-1/2 w-[86%] h-[78%] rounded-full bg-[radial-gradient(circle,rgba(179,171,214,0.24)_0%,rgba(179,171,214,0.08)_52%,rgba(179,171,214,0)_76%)]"></div>
+                  <div className="absolute left-1/2 top-[43%] -translate-x-1/2 -translate-y-1/2 w-[87%] h-[64%] rounded-full border border-[#DCD8EB]/65"></div>
                   <img
                     src={SafetyDiagram}
                     alt="Safety diagram"
-                    className="relative z-10 w-full max-w-[680px] mx-auto h-auto object-contain opacity-[0.97]"
+                    className="relative z-10 w-full max-w-[700px] mx-auto h-auto object-contain opacity-[0.98] drop-shadow-[0_14px_30px_rgba(41,34,78,0.1)]"
                     decoding="async"
                     loading="lazy"
                   />
@@ -239,7 +239,7 @@ export const SafetyPage: React.FC = () => {
                   {ARCHITECTURE_CALLOUTS.map((item) => (
                     <div
                       key={`desktop-${item.title}`}
-                      className={`hidden lg:block absolute ${item.positionClass} w-[190px] rounded-xl border border-[#DCD6EA] bg-white/96 px-3.5 py-2 shadow-[0_8px_16px_rgba(41,34,78,0.09)]`}
+                      className={`hidden lg:block absolute ${item.positionClass} w-[198px] rounded-xl border border-[#DCD6EA] bg-white/97 px-3.5 py-2.5 shadow-[0_10px_22px_rgba(41,34,78,0.1)]`}
                     >
                       <h4 className="text-xs font-semibold uppercase tracking-[0.07em] text-aaag-blue">{item.title}</h4>
                       <p className="text-[0.82rem] text-[#5E5978] mt-1 leading-[1.25]">{item.desc}</p>
@@ -247,8 +247,8 @@ export const SafetyPage: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="mt-5 text-center px-2">
-                  <h3 className="text-[2.2rem] md:text-[2.5rem] font-semibold leading-[1.05] text-[#27253B] max-w-[34rem] mx-auto">Redundant Safety Architecture</h3>
+                <div className="mt-8 text-center px-2">
+                  <h3 className="text-[2.15rem] md:text-[2.45rem] font-semibold leading-[1.06] text-[#27253B] max-w-[34rem] mx-auto">Redundant Safety Architecture</h3>
                   <p className="text-[0.95rem] md:text-[1rem] text-[#5D5976] mt-2">
                     Highly redundant system ensuring safe operation in failure scenarios.
                   </p>
@@ -259,13 +259,13 @@ export const SafetyPage: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.55, ease: 'easeOut' }}
                   viewport={{ once: true, amount: 0.4 }}
-                  className="mt-6 max-w-[610px] mx-auto rounded-[20px] border border-[#DDD8EB] bg-white/94 shadow-[0_12px_22px_rgba(41,34,78,0.08)] overflow-hidden"
+                  className="mt-8 max-w-[640px] mx-auto rounded-[20px] border border-[#DDD8EB] bg-white/95 shadow-[0_14px_26px_rgba(41,34,78,0.09)] overflow-hidden"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {ARCHITECTURE_SUMMARY.map((item, idx) => (
                       <div
                         key={`summary-${item.id}`}
-                        className={`px-4 py-3.5 md:px-5 md:py-3.5 ${
+                        className={`px-4.5 py-4 md:px-5.5 md:py-4 ${
                           idx % 2 === 0 ? 'md:border-r md:border-[#E6E1F1]' : ''
                         } ${idx < 2 ? 'border-b border-[#E6E1F1]' : ''}`}
                       >
