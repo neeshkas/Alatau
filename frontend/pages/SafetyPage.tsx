@@ -166,32 +166,32 @@ export const SafetyPage: React.FC = () => {
             <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.8)_0%,rgba(237,239,247,0.94)_100%)]"></div>
           </div>
 
-          <div className="relative z-10 max-w-[1280px] mx-auto px-6 w-full pt-12 md:pt-14 pb-12 md:pb-10">
-            <div className="grid grid-cols-1 lg:grid-cols-[0.86fr_1.14fr] lg:grid-rows-[auto_1fr] gap-x-14 gap-y-10 items-start">
+          <div className="relative z-10 max-w-[1280px] mx-auto px-6 w-full pt-10 md:pt-12 pb-10 md:pb-10">
+            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:grid-rows-[auto_1fr] gap-x-12 gap-y-8 items-start">
               <motion.div
                 initial="hidden"
                 whileInView="show"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={{ hidden: {}, show: { transition: { staggerChildren: 0.1 } } }}
-                className="max-w-[35rem]"
+                className="max-w-[34rem]"
               >
                 <div className="mb-4 inline-flex items-center gap-3">
                   <p className="text-sm md:text-base font-semibold uppercase tracking-[0.34em] text-aaag-blue">Safety Core</p>
                 </div>
-                <h2 className="text-3xl md:text-4xl lg:text-[2.85rem] font-bold leading-[1.05] max-w-[34rem]">
+                <h2 className="text-3xl md:text-4xl lg:text-[2.75rem] font-bold leading-[1.06] max-w-[34rem]">
                   Fail-safe architecture designed for controlled landing
                 </h2>
                 <p className="text-[0.96rem] md:text-[1rem] text-[#56516E] leading-relaxed max-w-[31rem] mt-4 mb-6">
                   Redundant propulsion, power segmentation and autonomous emergency logic.
                 </p>
 
-                <div className="space-y-4">
+                <div className="space-y-3.5">
                   {ARCHITECTURE_STEPS.map((step, idx) => (
                     <motion.div
                       key={step.id}
                       variants={{ hidden: { opacity: 0, x: -20, y: 10 }, show: { opacity: 1, x: 0, y: 0 } }}
                       transition={{ duration: 0.5, delay: idx * 0.06, ease: 'easeOut' }}
-                      className="rounded-[20px] border border-[#E2DDEE] bg-white/95 px-5 py-3.5 md:px-5.5 md:py-4 shadow-[0_10px_20px_rgba(41,34,78,0.08)]"
+                      className="rounded-[20px] border border-[#E2DDEE] bg-white/95 px-5 py-3.5 md:px-5.5 md:py-4 shadow-[0_10px_20px_rgba(41,34,78,0.08)] min-h-[102px]"
                     >
                       <div className="flex items-start gap-3.5">
                         <div className="w-9 h-9 rounded-full bg-aaag-blue text-white flex items-center justify-center text-[0.9rem] font-semibold shrink-0">
@@ -216,18 +216,18 @@ export const SafetyPage: React.FC = () => {
                 viewport={{ once: true, amount: 0.3 }}
                 className="relative lg:row-span-2 lg:pl-1"
               >
-                <div className="relative">
-                  <div className="absolute left-1/2 top-[43%] -translate-x-1/2 -translate-y-1/2 w-[86%] h-[78%] rounded-full bg-[radial-gradient(circle,rgba(179,171,214,0.24)_0%,rgba(179,171,214,0.08)_52%,rgba(179,171,214,0)_76%)]"></div>
-                  <div className="absolute left-1/2 top-[43%] -translate-x-1/2 -translate-y-1/2 w-[87%] h-[64%] rounded-full border border-[#DCD8EB]/65"></div>
+                <div className="relative rounded-[28px] border border-[#DDD8EB] bg-white/55 px-4 pt-4 pb-5 md:px-6 md:pt-6 md:pb-7 shadow-[0_14px_28px_rgba(41,34,78,0.08)] overflow-hidden">
+                  <div className="absolute left-1/2 top-[39%] -translate-x-1/2 -translate-y-1/2 w-[88%] h-[76%] rounded-full bg-[radial-gradient(circle,rgba(179,171,214,0.24)_0%,rgba(179,171,214,0.08)_54%,rgba(179,171,214,0)_78%)]"></div>
+                  <div className="absolute left-1/2 top-[39%] -translate-x-1/2 -translate-y-1/2 w-[88%] h-[60%] rounded-full border border-[#DCD8EB]/60"></div>
                   <img
                     src={SafetyDiagram}
                     alt="Safety diagram"
-                    className="relative z-10 w-full max-w-[700px] mx-auto h-auto object-contain opacity-[0.98] drop-shadow-[0_14px_30px_rgba(41,34,78,0.1)]"
+                    className="relative z-10 w-full max-w-[720px] mx-auto h-auto object-contain opacity-[0.98] -mt-10 md:-mt-8 lg:-mt-12 drop-shadow-[0_14px_30px_rgba(41,34,78,0.1)]"
                     decoding="async"
                     loading="lazy"
                   />
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5 lg:hidden">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3 lg:hidden">
                     {ARCHITECTURE_CALLOUTS.map((item) => (
                       <div key={item.title} className="rounded-2xl border border-[#DCD6EA] bg-white/95 px-4 py-3 shadow-[0_10px_22px_rgba(41,34,78,0.08)]">
                         <h4 className="text-xs font-semibold uppercase tracking-[0.06em] text-aaag-blue">{item.title}</h4>
@@ -239,7 +239,7 @@ export const SafetyPage: React.FC = () => {
                   {ARCHITECTURE_CALLOUTS.map((item) => (
                     <div
                       key={`desktop-${item.title}`}
-                      className={`hidden lg:block absolute ${item.positionClass} w-[198px] rounded-xl border border-[#DCD6EA] bg-white/97 px-3.5 py-2.5 shadow-[0_10px_22px_rgba(41,34,78,0.1)]`}
+                      className={`hidden lg:block absolute ${item.positionClass} w-[190px] rounded-xl border border-[#DCD6EA] bg-white/97 px-3.5 py-2.5 shadow-[0_10px_22px_rgba(41,34,78,0.1)]`}
                     >
                       <h4 className="text-xs font-semibold uppercase tracking-[0.07em] text-aaag-blue">{item.title}</h4>
                       <p className="text-[0.82rem] text-[#5E5978] mt-1 leading-[1.25]">{item.desc}</p>
@@ -247,7 +247,7 @@ export const SafetyPage: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="mt-8 text-center px-2">
+                <div className="mt-5 text-center px-2">
                   <h3 className="text-[2.15rem] md:text-[2.45rem] font-semibold leading-[1.06] text-[#27253B] max-w-[34rem] mx-auto">Redundant Safety Architecture</h3>
                   <p className="text-[0.95rem] md:text-[1rem] text-[#5D5976] mt-2">
                     Highly redundant system ensuring safe operation in failure scenarios.
@@ -259,7 +259,7 @@ export const SafetyPage: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.55, ease: 'easeOut' }}
                   viewport={{ once: true, amount: 0.4 }}
-                  className="mt-8 max-w-[640px] mx-auto rounded-[20px] border border-[#DDD8EB] bg-white/95 shadow-[0_14px_26px_rgba(41,34,78,0.09)] overflow-hidden"
+                  className="mt-5 max-w-[640px] mx-auto rounded-[20px] border border-[#DDD8EB] bg-white/95 shadow-[0_14px_26px_rgba(41,34,78,0.09)] overflow-hidden"
                 >
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {ARCHITECTURE_SUMMARY.map((item, idx) => (
